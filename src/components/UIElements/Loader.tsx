@@ -13,9 +13,9 @@ const Loader = (props: CustomInputProps) => {
 
     return (
         <Box display="flex" flexDirection="row">
-            <Box>
+            <Box display="flex" alignItems="center">
                 <CircularProgress color="secondary" />
-                {props.message}
+                <Box ml={2}>{props.message}</Box>
             </Box>
         </Box>
     );

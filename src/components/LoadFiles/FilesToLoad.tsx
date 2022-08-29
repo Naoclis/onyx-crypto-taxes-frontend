@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, Grid } from '@mui/material';
 /********* [ MY LIBRARIES ] ***************/
 //Components
+import Loader from '../../components/UIElements/Loader';
 import FilesByExchange from './FilesToLoad/FilesByExchange';
 //Api
 import ApiOperations from '../../shared/apiOperations';
@@ -12,9 +13,6 @@ import ApiOperations from '../../shared/apiOperations';
 /*********** [ COMPONENT ] ****************/
 const LoadOperationsKPI = (props: any) => {
     const { file, lines, market } = props.res;
-    if (lines.rejectedLines === undefined) {
-        console.log(file);
-    }
 
     const setKpis = () => {
         return (<Box>
@@ -31,7 +29,7 @@ const LoadOperationsKPI = (props: any) => {
             <h4>Fichier Chargé avec succcès</h4>
             Nom du fichier : {file}<br />
             Marché : {market}<br />
-            { (lines.rejectedLines !== undefined) ? setKpis() : <p>Tout le fichier est en rejet. Cela peut etre normal pour les fichiers Binance Transactions</p>}
+            {(lines.rejectedLines !== undefined) ? setKpis() : <p>Tout le fichier est en rejet. Cela peut etre normal pour les fichiers Binance Transactions</p>}
         </Box>
     );
 }
@@ -42,6 +40,7 @@ const FilesToLoad = () => {
     //States
     const [exchangeFiles, setExchangeFiles] = useState([]);
     const [loadedFile, setLoadedFile] = useState();
+    const [inProgress, setInProgress] = useState<number>(-1);
 
     //Functions
     const init = async () => {
@@ -53,16 +52,26 @@ const FilesToLoad = () => {
 
     const loadAllFiles = async () => {
         const files = exchangeFiles.map((el: any) => el.files).flat();
+        setInProgress(1);
         for (let index = 0; index < files.length; index++) {
             const file = files[index];
             await loadFile(file);
         }
+        setInProgress(-1);
     };
 
     const loadFile = async (file: any) => {
         const data = { path: file.path, exchange: file.account, type: file.subAccount };
         const res = await apiCaller.post('file/load', data, 'loader');
         setLoadedFile(res);
+    };
+
+    const deleteLogs = async () => {
+        const res = await apiCaller.get('debug/emptyLogsDir', 'debugger');
+        setInProgress(1);
+        if (res !== undefined) {
+            setInProgress(-1);
+        }
     };
 
     //Effects
@@ -74,8 +83,16 @@ const FilesToLoad = () => {
     return (
         <Grid container spacing={4}>
             <Grid item xs={8}>
+                {inProgress === -1 &&
+                    <Box display="flex" sx={{ '> .MuiButtonBase-root': { marginRight: '1em' } }}>
+                        <Button variant="contained" color="primary" onClick={deleteLogs}>Supprimer fichiers de transactions</Button>
+                        <Button variant="contained" color="primary" onClick={loadAllFiles}>Générer fichiers de transactions</Button>
+                    </Box>
+                }
+                {inProgress === 1 &&
+                    <Loader message="Action en cours" />
+                }
 
-                <Button variant="contained" color="primary" onClick={loadAllFiles}>Charger tous les fichiers</Button>
                 {exchangeFiles.map((item: any, index: number) =>
                     <Box key={index} >
                         <h1>{item.exchange}</h1>
@@ -83,8 +100,8 @@ const FilesToLoad = () => {
                     </Box>
                 )}
             </Grid>
-            <Grid item xs={4}>                
-                {loadedFile !== undefined && <LoadOperationsKPI res={loadedFile}/>}
+            <Grid item xs={4}>
+                {loadedFile !== undefined && <LoadOperationsKPI res={loadedFile} />}
             </Grid>
         </Grid>
     );

@@ -8,12 +8,12 @@ import Menu from '../../components/Menus/Menu';
 /********** [ PROPERTIES ] ****************/
 
 /*********** [ COMPONENT ] ****************/
-const Load = (props: any) => {
+const LoadFiles = (props: any) => {
     const { selectedMenuItem } = props;
     const menuItems = [
-        { url: "/admin/loadFiles", label: "Chargement des fichiers" },
-        { url: "/admin/controlFiles", label: "Contrôle des fichiers" },
-        { url: "/admin/controlDatabase", label: "Contrôle des données" },
+        { url: "/admin/load/loadFiles", label: "Chargement des fichiers" },
+        { url: "/admin/load/controlFiles", label: "Contrôle des fichiers" },
+        { url: "/admin/load/controlDatabase", label: "Contrôle des stagings area" },
     ];
 
     //Render
@@ -27,4 +27,4 @@ const Load = (props: any) => {
     );
 };
 
-export default memo(Load);
+export default memo(LoadFiles);

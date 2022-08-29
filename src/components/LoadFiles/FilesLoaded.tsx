@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, Grid, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 /********* [ MY LIBRARIES ] ***************/
 //Components
+import Loader from '../../components/UIElements/Loader';
 import ExchangeFilenameDir from './FilesLoaded/ExchangeFilenameDirs';
 //Api
 import ApiOperations from '../../shared/apiOperations';
@@ -17,6 +18,8 @@ const FilesLoaded = () => {
     //States
     const [filesByExchange, setFilesByExchange] = useState([]);
     const [transactionFilesToLoad, setTransactionFilesToLoad] = useState<Array<string>>([]);
+    const [inProgress, setInProgress] = useState<number>(-1);
+
     //Functions
     const init = async () => {
         const res = await apiCaller.get('files/checkTransactionsFileToInsert', 'loader');
@@ -38,9 +41,27 @@ const FilesLoaded = () => {
     };
 
     const launchTransactionsFilesInsertion = async () => {
-        console.log(transactionFilesToLoad);
-        const data = { files: transactionFilesToLoad };
-        const res = await apiCaller.post('transactions/insertion', data, 'loader');
+        const files = filesByExchange
+            .map((el: any) => el.dirs)
+            .flat()
+            .map((el: any) => ({
+                filepath: el.files.filter((el: any) => el.path.match(/transactionsToInsert/) !== null)[0].path,
+                market: el.market
+            }))
+            .flat();
+        setInProgress(1);
+        for (const file of files) {
+            await launchTransactionsFileInsertion(file);
+        }
+        setInProgress(-1);
+        //for (let index = 0; index < transactionFilesToLoad.length; index++) {
+        //    const file = transactionFilesToLoad[index];
+        //    await launchTransactionsFileInsertion(file);
+        //}
+    }
+
+    const launchTransactionsFileInsertion = async (file: any) => {
+        const res = await apiCaller.post('transactionsFile/insertion', { file: file }, 'loader');
         //setLoadedFile(res);
     }
 
@@ -53,7 +74,12 @@ const FilesLoaded = () => {
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
-                <Button variant="contained" onClick={launchTransactionsFilesInsertion}>Lancer Insertion des fichiers de transactions</Button>
+                {inProgress === -1 && 
+                    <Button variant="contained" onClick={launchTransactionsFilesInsertion}>Lancer Insertion des fichiers de transactions</Button>
+                }
+                {inProgress === 1 &&
+                    <Loader message="Action en cours" />
+                }
                 {filesByExchange.map((item: any, index: number) =>
                     <Box key={index} >
                         <h1>{item.exchange}</h1>
