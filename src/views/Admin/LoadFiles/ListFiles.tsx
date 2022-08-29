@@ -12,8 +12,6 @@ const ListFiles = () => {
     //Render
     return (
         <LoadFiles selectedMenuItem={title}>
-            <h1>{title}</h1>
-            <h3>Liste des fichiers présents dans les répertoires, qu'il est possible de charger</h3>
             <FilesToLoad />
         </LoadFiles>
     );

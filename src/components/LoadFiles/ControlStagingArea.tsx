@@ -12,21 +12,45 @@ import { defaultStyles } from '../../assets/styles/theme';
 
 /*********** [ COMPONENT ] ****************/
 const TableKpi = (props: any) => {
+    //Variables
+    const apiCaller = new ApiOperations();
     const { table, name } = props;
     const { rejected, accepted } = table;
+    //States    
+    const [inProgress, setInProgress] = useState<number>(-1);
+
+    //Functions
+    const migrateStagingToStableTables = async () => {
+        setInProgress(1);
+        const res = await apiCaller.get(`transactions/fromStagingToDefinitive/${name}`, 'loader');
+        if (res !== undefined) {
+            console.log(res);
+            setInProgress(-1);
+        }
+    };
+
     //Render
     return (
-        <Box>
-            <h3>Staging Area : {name}</h3>
-            Nombre de lignes valides : {accepted} - Nombre de lignes en erreur : {rejected}
-        </Box>
+        <TableRow>
+            <TableCell>{name}</TableCell>
+            <TableCell>{accepted}</TableCell>
+            <TableCell>{rejected}</TableCell>
+            <TableCell>
+                {inProgress === -1 && (rejected === 0) &&
+                    <Button variant='contained' onClick={migrateStagingToStableTables}>Charger la table définitive : {name.toUpperCase()}</Button>
+                }
+                {inProgress === 1 &&
+                    <Loader message="Action en cours" />
+                }
+            </TableCell>
+        </TableRow>
     );
 };
 
 const ControlStagingArea = () => {
     //Variables
     const apiCaller = new ApiOperations();
-    //States
+    //States    
     const [inProgress, setInProgress] = useState<number>(-1);
     const [tablesKpi, setTablesKpi] = useState<any>(
         {
@@ -36,47 +60,18 @@ const ControlStagingArea = () => {
             "coldWallet": { "rejected": 0, "accepted": 0 }
         }
     );
-    const [isOKForInsertion, setIsOKForInsertion] = useState<number>(0);
     //Functions
     const init = async () => {
         setInProgress(1);
-        setIsOKForInsertion(0);
         const res = await apiCaller.get('validate/stagingArea', 'databaseValidator');
         if (res !== undefined) {
             setTablesKpi(res.results);
             setInProgress(-1);
-            displayButtonToUploadDefinitiveTables();
         }
     };
 
-    const displayButtonToUploadDefinitiveTables = () => {
-        let totalRejected = 0;
-        for (const market in tablesKpi) {
-            const { rejected } = tablesKpi[market];
-            totalRejected += rejected;
-        }
-        const isOK = (totalRejected === 0) ? 1 : 0;
-        setIsOKForInsertion(isOK);
-    };
-
-    const migrateStagingToStableTables = async () => {
-        setInProgress(1);
-        const res = await apiCaller.get('transactions/fromStagingToDefinitive', 'loader');
-        if (res !== undefined) {
-            console.log(res);
-            setInProgress(-1);
-        }
-    };
-
-    const emptyStagingTables = async () => {
-        const res = await apiCaller.get('emptyDB/staging', 'debugger');
-        if (res !== undefined) {
-            console.log(res);
-        }
-    };
-
-    const emptyDefinitiveTables = async () => {
-        const res = await apiCaller.get('emptyDB/definitive', 'debugger');
+    const emptyTables = async (mode: string) => {
+        const res = await apiCaller.get(`emptyDB/${mode}`, 'debugger');
         if (res !== undefined) {
             console.log(res);
         }
@@ -91,25 +86,34 @@ const ControlStagingArea = () => {
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
-                <Box display="flex" sx={{ '> .MuiButtonBase-root': {marginRight:'1em'}}}>
-                    <Button variant='contained' onClick={emptyStagingTables}>Vider Staging Tables</Button>
-                    <Button variant='contained' onClick={emptyDefinitiveTables}>Vider les tables définitives</Button>
-                    {inProgress === -1 && isOKForInsertion &&
-                        <Button variant='contained' onClick={migrateStagingToStableTables}>Charger les tables définitives</Button>
-                    }
-                    {inProgress === 1 &&
+                {inProgress === 1 &&
+                    <Box mb={2}>
                         <Loader message="Action en cours" />
-                    }
-                </Box>
-                {tablesKpi !== undefined &&
-                    <Box>
-                        <TableKpi table={tablesKpi.future} name='Future' />
-                        <TableKpi table={tablesKpi.spot} name='Spot' />
-                        <TableKpi table={tablesKpi.staking} name='Staking' />
-                        <TableKpi table={tablesKpi.coldWallet} name='Cold Wallet' />
                     </Box>
                 }
-
+                <Box display="flex" sx={{ '> .MuiButtonBase-root': { marginRight: '1em' } }}>
+                    <Button variant='contained' onClick={() => emptyTables('all')}>Vider toutes les tables</Button>
+                    <Button variant='contained' onClick={() => emptyTables('staging')}>Vider Staging Tables</Button>
+                    <Button variant='contained' onClick={() => emptyTables('definitive')}>Vider les tables définitives</Button>
+                </Box>
+                {tablesKpi !== undefined &&
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Nom Table</TableCell>
+                                <TableCell>Nb Lignes OK</TableCell>
+                                <TableCell>Nb Lignes KO</TableCell>
+                                <TableCell>Prêt pour insertion ?</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            <TableKpi table={tablesKpi.future} name='Future' />
+                            <TableKpi table={tablesKpi.spot} name='Spot' />
+                            <TableKpi table={tablesKpi.staking} name='Staking' />
+                            <TableKpi table={tablesKpi.coldWallet} name='ColdWallet' />
+                        </TableBody>
+                    </Table>
+                }
             </Grid>
         </Grid>
     );

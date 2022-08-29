@@ -21,6 +21,7 @@ const futureHeader: Array<any> = [
     { label: 'Type', index: 1 },
     { label: 'Quantité', index: 2 },
     { label: 'Asset', index: 3 },
+    { label: 'Cause du rejet', index: 5 },
 ];
 
 const spotHeader: Array<any> = [
@@ -32,6 +33,25 @@ const spotHeader: Array<any> = [
     { label: 'Montant', index: 4 },
     { label: 'Frais (qté)', index: 6 },
     { label: 'Frais (mnt)', index: 7 },
+    { label: 'Cause du rejet', index: 8 },
 ];
 
-export { years, months, futureHeader, spotHeader };
+const binanceOldTransactionHeader: Array<any> = [
+    { label: 'Date de Transaction', index: 0 },
+    { label: 'Marché', index: 1 },
+    { label: 'Type Ordre', index: 2 },
+    { label: 'Quantité', index: 4 },
+    { label: 'Asset', index: 3 },
+    { label: 'Cause du rejet', index: 6 },
+];
+
+const binanceTransactionHeader: Array<any> = [
+    { label: 'Date de Transaction', index: 1 },
+    { label: 'Marché', index: 2 },
+    { label: 'Type Ordre', index: 3 },
+    { label: 'Quantité', index: 5 },
+    { label: 'Asset', index: 4 },
+    { label: 'Cause du rejet', index: 7 },
+];
+
+export { years, months, futureHeader, spotHeader, binanceOldTransactionHeader, binanceTransactionHeader };

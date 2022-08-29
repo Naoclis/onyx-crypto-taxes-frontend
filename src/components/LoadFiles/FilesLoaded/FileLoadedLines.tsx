@@ -3,7 +3,7 @@ import React from 'react';
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 /********* [ MY LIBRARIES ] ***************/
 //Components
-import { futureHeader, spotHeader } from '../../../assets/variables';
+import { futureHeader, spotHeader, binanceOldTransactionHeader, binanceTransactionHeader } from '../../../assets/variables';
 /********** [ PROPERTIES ] ****************/
 //Style
 import { defaultStyles, palette } from '../../../assets/styles/theme';
@@ -22,11 +22,13 @@ const styles = {
 
 /*********** [ COMPONENT ] ****************/
 const FileLoadedLines = (props: any) => {
-    const { lines, market } = props;
-    const header = ((market === 'Future') && futureHeader)
-        || ((market === 'Spot') && spotHeader)
-        || ['None'];
-
+    const { lines, exchange, market } = props;
+    const header = (['Future'].includes(market) && futureHeader)
+        || (['Spot'].includes(market) && spotHeader)
+        || (exchange === 'Binance' && market === 'OldTransactions' && binanceOldTransactionHeader)
+        || (exchange === 'Binance' && market === 'Transactions' && binanceTransactionHeader)
+        || [{ label: `ENTENTE NON DEFINI POUR CE MARCHE : ${market}`, index: 0 }];
+    
     //Render
     return (
         <Table sx={styles.table}>

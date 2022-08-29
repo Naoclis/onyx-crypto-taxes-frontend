@@ -22,7 +22,7 @@ const FilesLoaded = () => {
 
     //Functions
     const init = async () => {
-        const res = await apiCaller.get('files/checkTransactionsFileToInsert', 'loader');
+        const res = await apiCaller.get('files/check/transactionsFiles', 'loader');
         if (res !== undefined) {
             setFilesByExchange(res.filesByFolder);
         }
@@ -40,7 +40,16 @@ const FilesLoaded = () => {
         }
     };
 
-    const launchTransactionsFilesInsertion = async () => {
+    const launchTransactionsFilesInsertion = async () => {        
+        setInProgress(1);
+        await loadAll();
+        //await loadSelectedFilesAll();
+        setInProgress(-1);
+        //Code pour n'insérer que les fichiers choisis par l'utilisateur
+        
+    }
+
+    const loadAll = async () => {
         const files = filesByExchange
             .map((el: any) => el.dirs)
             .flat()
@@ -49,20 +58,23 @@ const FilesLoaded = () => {
                 market: el.market
             }))
             .flat();
-        setInProgress(1);
         for (const file of files) {
             await launchTransactionsFileInsertion(file);
         }
-        setInProgress(-1);
-        //for (let index = 0; index < transactionFilesToLoad.length; index++) {
-        //    const file = transactionFilesToLoad[index];
-        //    await launchTransactionsFileInsertion(file);
-        //}
+    }
+
+    const loadSelectedFilesAll = async () => {
+        for (let index = 0; index < transactionFilesToLoad.length; index++) {
+            const file = transactionFilesToLoad[index];
+            await launchTransactionsFileInsertion(file);
+        }
     }
 
     const launchTransactionsFileInsertion = async (file: any) => {
         const res = await apiCaller.post('transactionsFile/insertion', { file: file }, 'loader');
-        //setLoadedFile(res);
+        //if (res !== undefined) {
+        //    console.log(res);
+        //}
     }
 
     //Effects

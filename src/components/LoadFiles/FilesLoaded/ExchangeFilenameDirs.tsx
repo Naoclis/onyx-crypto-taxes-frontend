@@ -1,6 +1,6 @@
 /********** [  LIBRARIES  ] ***************/
 import React, { useState } from 'react';
-import { Link, Switch, TableCell, TableRow } from '@mui/material';
+import { Box, Link, Switch, TableCell, TableRow } from '@mui/material';
 /********* [ MY LIBRARIES ] ***************/
 //Components
 import FileLoadedLines from './FileLoadedLines';
@@ -40,18 +40,23 @@ const ExchangeFilenameDir = (props: any) => {
             <TableRow>
                 <TableCell>{dirName.replace(`./src/assets/logs/${exchange}/`, '')}</TableCell>
                 <TableCell>{market}</TableCell>
-                <TableCell className='rejected'><Link href='#' onClick={toogleRejected}>Afficher Lignes</Link></TableCell>
+                <TableCell className='rejected'>
+                    {(nbLines.rejected !== 0) ?
+                        <Link href='#' onClick={toogleRejected}>Afficher Lignes</Link> :
+                        <Box sx={{ color:'secondary.main' }}>Aucun Rejet !</Box>
+                    }
+                </TableCell>
                 <TableCell>{nbLines.rejected}</TableCell>
                 <TableCell>{nbLines.keeped}</TableCell>
                 <TableCell>{nbTransactions.identified}</TableCell>
                 <TableCell>{nbTransactions.toInsert}</TableCell>
                 <TableCell>{deduceStatus()}</TableCell>
-                <TableCell><Switch checked={checked} onChange={updateTransactionFilesList}/></TableCell>
+                <TableCell><Switch checked={checked} onChange={updateTransactionFilesList} /></TableCell>
             </TableRow>
             <TableRow>
-                <TableCell colSpan={9}>{isRejectedShown && <FileLoadedLines lines={rejectedLines} market={market} />}</TableCell>
+                <TableCell colSpan={9}>{isRejectedShown && <FileLoadedLines lines={rejectedLines} market={market} exchange={exchange} />}</TableCell>
             </TableRow>
-            
+
         </React.Fragment>
     );
 };

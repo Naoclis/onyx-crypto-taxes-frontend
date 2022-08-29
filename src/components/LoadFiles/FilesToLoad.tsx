@@ -1,69 +1,53 @@
 /********** [  LIBRARIES  ] ***************/
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Grid } from '@mui/material';
+import { Box, Button, Grid, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 /********* [ MY LIBRARIES ] ***************/
 //Components
 import Loader from '../../components/UIElements/Loader';
 import FilesByExchange from './FilesToLoad/FilesByExchange';
+import FileLoadedKPI from './FilesToLoad/FileLoadedKpi'; 
+import FilesAlreadyLoaded from './FilesToLoad/FilesAlreadyLoaded';
 //Api
 import ApiOperations from '../../shared/apiOperations';
 /********** [ PROPERTIES ] ****************/
 //Style
 
 /*********** [ COMPONENT ] ****************/
-const LoadOperationsKPI = (props: any) => {
-    const { file, lines, market } = props.res;
-
-    const setKpis = () => {
-        return (<Box>
-            Nb de lignes rejetées : {lines.rejectedLines.length}<br />
-            Nb de lignes conservées : {lines.keepedLines.length}<br />
-            Nb de transactions créées : {lines.identifiedTransactions.length}<br />
-            Nb de transactions à insérer : {lines.transactionsToInsert.length}<br />
-        </Box>)
-    };
-
-    //Render
-    return (
-        <Box sx={{ border: '2px solid pink' }} p={2}>
-            <h4>Fichier Chargé avec succcès</h4>
-            Nom du fichier : {file}<br />
-            Marché : {market}<br />
-            {(lines.rejectedLines !== undefined) ? setKpis() : <p>Tout le fichier est en rejet. Cela peut etre normal pour les fichiers Binance Transactions</p>}
-        </Box>
-    );
-}
-
 const FilesToLoad = () => {
     //Variables
     const apiCaller = new ApiOperations();
     //States
-    const [exchangeFiles, setExchangeFiles] = useState([]);
+    const [filesNotLoaded, setFilesNotLoaded] = useState([]);
+    const [loadedFiles, setLoadedFiles] = useState([]);
     const [loadedFile, setLoadedFile] = useState();
     const [inProgress, setInProgress] = useState<number>(-1);
 
     //Functions
     const init = async () => {
-        const res = await apiCaller.get('files/getFilesToUpload', 'loader');
+        const res = await apiCaller.get('files/check/sourceFiles', 'loader');
         if (res !== undefined) {
-            setExchangeFiles(res.filesByFolder);
+            setFilesNotLoaded(res.filesByFolder);
+            setLoadedFiles(res.filesAlreadyLoaded);
         }
     };
 
     const loadAllFiles = async () => {
-        const files = exchangeFiles.map((el: any) => el.files).flat();
+        const files = filesNotLoaded.map((el: any) => el.files).flat();
         setInProgress(1);
-        for (let index = 0; index < files.length; index++) {
-            const file = files[index];
+        for (const file of files) {
             await loadFile(file);
         }
         setInProgress(-1);
     };
 
     const loadFile = async (file: any) => {
+        setInProgress(1);
         const data = { path: file.path, exchange: file.account, type: file.subAccount };
-        const res = await apiCaller.post('file/load', data, 'loader');
-        setLoadedFile(res);
+        const res = await apiCaller.post('file/generateTransactionFiles', data, 'loader');
+        if (res !== undefined) {
+            setLoadedFile(res);
+            setInProgress(-1);
+        }
     };
 
     const deleteLogs = async () => {
@@ -82,26 +66,36 @@ const FilesToLoad = () => {
     //Render
     return (
         <Grid container spacing={4}>
-            <Grid item xs={8}>
+            <Grid item xs={12}>
+
                 {inProgress === -1 &&
                     <Box display="flex" sx={{ '> .MuiButtonBase-root': { marginRight: '1em' } }}>
                         <Button variant="contained" color="primary" onClick={deleteLogs}>Supprimer fichiers de transactions</Button>
-                        <Button variant="contained" color="primary" onClick={loadAllFiles}>Générer fichiers de transactions</Button>
+                        <Button variant="contained" color="primary" onClick={loadAllFiles}>Générer tous les fichiers de transactions</Button>
                     </Box>
                 }
                 {inProgress === 1 &&
                     <Loader message="Action en cours" />
                 }
-
-                {exchangeFiles.map((item: any, index: number) =>
+            </Grid>
+            <Grid item xs={6}>
+                <h3>Liste des fichiers présents dans les répertoires, qu'il est possible de charger</h3>
+                {loadedFile !== undefined && <FileLoadedKPI res={loadedFile} />}
+                {filesNotLoaded.map((item: any, index: number) =>
                     <Box key={index} >
                         <h1>{item.exchange}</h1>
                         <FilesByExchange files={item.files} loadFile={loadFile} />
                     </Box>
                 )}
             </Grid>
-            <Grid item xs={4}>
-                {loadedFile !== undefined && <LoadOperationsKPI res={loadedFile} />}
+            <Grid item xs={6}>
+                <h3>Liste des fichiers déjà chargés</h3>
+                {loadedFiles.map((item: any, index: number) =>
+                    <Box key={index} >
+                        <h1>{item.source}</h1>
+                        <FilesAlreadyLoaded files={item.files}/>
+                    </Box>
+                )}
             </Grid>
         </Grid>
     );
