@@ -11,10 +11,8 @@ import Menu from '../../components/Menus/Menu';
 const LoadFiles = (props: any) => {
     const { selectedMenuItem } = props;
     const menuItems = [
-        { url: "/admin/files/load", label: "Chargement des fichiers" },
-        { url: "/admin/files/control", label: "Contrôle des fichiers" },
-        { url: "/admin/database/check", label: "Contrôle des stagings area" },
-        { url: "/admin/database/complete", label: "Ajout Fichier Manuel" },
+        { url: "/admin/taxes/init", label: "Création du portefeuille" },
+        { url: "/admin/taxes/stateByYear", label: "Vision annuelle portefeuille" },
     ];
     //Render
     return (

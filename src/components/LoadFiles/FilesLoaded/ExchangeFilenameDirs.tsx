@@ -1,6 +1,6 @@
 /********** [  LIBRARIES  ] ***************/
 import React, { useState } from 'react';
-import { Box, Link, Switch, TableCell, TableRow } from '@mui/material';
+import { Box, Button, Switch, TableCell, TableRow } from '@mui/material';
 /********* [ MY LIBRARIES ] ***************/
 //Components
 import FileLoadedLines from './FileLoadedLines';
@@ -42,7 +42,7 @@ const ExchangeFilenameDir = (props: any) => {
                 <TableCell>{market}</TableCell>
                 <TableCell className='rejected'>
                     {(nbLines.rejected !== 0) ?
-                        <Link href='#' onClick={toogleRejected}>Afficher Lignes</Link> :
+                        <Button onClick={toogleRejected}>Afficher Lignes</Button> :
                         <Box sx={{ color:'secondary.main' }}>Aucun Rejet !</Box>
                     }
                 </TableCell>

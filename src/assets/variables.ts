@@ -54,4 +54,15 @@ const binanceTransactionHeader: Array<any> = [
     { label: 'Cause du rejet', index: 7 },
 ];
 
-export { years, months, futureHeader, spotHeader, binanceOldTransactionHeader, binanceTransactionHeader };
+const nexoHeader: Array<any> = [
+    { label: 'Date de Transaction', index: 9 },
+    { label: 'Type Ordre', index: 1 },
+    { label: 'Quantité (IN)', index: 2 },
+    { label: 'Asset (IN)', index: 3 },
+    { label: 'Quantité (OUT)', index: 4 },
+    { label: 'Asset (OUT)', index: 5 },
+    { label: 'Détails', index: 6 },
+    { label: 'Cause du rejet', index: 10 },
+];
+
+export { years, months, futureHeader, spotHeader, binanceOldTransactionHeader, binanceTransactionHeader, nexoHeader };

@@ -45,8 +45,6 @@ const FilesLoaded = () => {
         await loadAll();
         //await loadSelectedFilesAll();
         setInProgress(-1);
-        //Code pour n'insérer que les fichiers choisis par l'utilisateur
-        
     }
 
     const loadAll = async () => {
