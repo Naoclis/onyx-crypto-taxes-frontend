@@ -10,6 +10,7 @@ import CompleteDatabase from '../views/Admin/LoadFiles/CompleteDatabase';
 
 import InitWallet from '../views/Admin/Taxes/InitWallet';
 import WalletByYear from '../views/Admin/Taxes/WalletByYear';
+import OrderComparison from '../views/Admin/Taxes/OrderComparison';
 
 import Help from '../views/Admin/Help';
 
@@ -30,6 +31,7 @@ const AppRoutes = () => {
                 <Route path="/admin/database/complete" element={<CompleteDatabase />} />
                 <Route path="/admin/taxes/init" element={<InitWallet />} />
                 <Route path="/admin/taxes/stateByYear" element={<WalletByYear />} />
+                <Route path="/admin/taxes/compareStateByYear" element={<OrderComparison />} />
                 <Route path="/admin/help" element={<Help />} />
                 <Route path="/admin/debug" element={<Debug />} />
             </Routes>

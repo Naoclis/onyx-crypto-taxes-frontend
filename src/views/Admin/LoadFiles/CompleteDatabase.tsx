@@ -6,7 +6,7 @@ import LoadFiles from '../LoadFiles';
 import CompleteDatabase from '../../../components/LoadFiles/CompleteDatabase';
 
 /*********** [ COMPONENT ] ****************/
-const ControlDatabase = () => {
+const CompleteDatabaseView = () => {
     const title = "Ajout Fichiers Manuels";
     //Render
     return (
@@ -16,4 +16,4 @@ const ControlDatabase = () => {
     );
 };
 
-export default ControlDatabase;
+export default CompleteDatabaseView;

@@ -13,6 +13,7 @@ const LoadFiles = (props: any) => {
     const menuItems = [
         { url: "/admin/taxes/init", label: "Création du portefeuille" },
         { url: "/admin/taxes/stateByYear", label: "Vision annuelle portefeuille" },
+        { url: "/admin/taxes/compareStateByYear", label: "Comparaison Ordres Portefeuille" },
     ];
     //Render
     return (

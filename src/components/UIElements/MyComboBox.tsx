@@ -14,6 +14,11 @@ const styles = {
         margin: '2px',
         width: '300px',
     },
+    items: {
+        '&& .MuiMenuItem-root': {
+            color: 'black'
+        },
+    },
 };
 /*********** [ COMPONENT ] ****************/
 const MyComboBox = (props: any) => {
@@ -31,11 +36,14 @@ const MyComboBox = (props: any) => {
     //Render
     return (
         <FormControl>
-            <InputLabel id={`select-${id}`}>{label}</InputLabel>
+            <InputLabel id={`select-${id}`} sx={{color:'white'}}>{label}</InputLabel>
             <Select
                 labelId={`select-${id}`}
                 value={element}
                 onChange={handleChange}
+                MenuProps={{
+                    sx: { ...styles.items }
+                }}
                 sx={styles.root}
             >
                 <MenuItem value='-1' sx={{ color: 'black' }}>------</MenuItem>

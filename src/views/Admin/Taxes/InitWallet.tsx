@@ -7,7 +7,7 @@ import InitWallet from '../../../components/Taxes/InitWallet';
 /********** [ PROPERTIES ] ****************/
 
 /*********** [ COMPONENT ] ****************/
-const ListFiles = () => {
+const InitWalletView = () => {
     const title = "Création du portefeuille";
     //Render
     return (
@@ -17,4 +17,4 @@ const ListFiles = () => {
     );
 };
 
-export default ListFiles;
+export default InitWalletView;

@@ -3,18 +3,18 @@ import React from 'react';
 /********* [ MY LIBRARIES ] ***************/
 //Components
 import Taxes from '../Taxes';
-import WalletByYear from '../../../components/Taxes/WalletByYear';
+import OrderComparison from '../../../components/Taxes/OrderComparison';
 /********** [ PROPERTIES ] ****************/
 
 /*********** [ COMPONENT ] ****************/
-const WalletByYearView = () => {
-    const title = "Vision annuelle portefeuille";
+const OrderComparisonView = () => {
+    const title = "Comparaison Ordres Portefeuille";
     //Render
     return (
         <Taxes selectedMenuItem={title}>
-            <WalletByYear />
+            <OrderComparison />
         </Taxes>
     );
 };
 
-export default WalletByYearView;
+export default OrderComparisonView;

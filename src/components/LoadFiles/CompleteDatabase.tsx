@@ -1,15 +1,13 @@
 /********** [  LIBRARIES  ] ***************/
-import React, { useEffect, useState } from 'react';
-import { Box, Button, Grid, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Button, Grid } from '@mui/material';
 /********* [ MY LIBRARIES ] ***************/
 //Components
 import Loader from '../../components/UIElements/Loader';
-import StagingTablesChecker from './CompleteDatabase/StagingTableChecker';
 //Api
 import ApiOperations from '../../shared/apiOperations';
 /********** [ PROPERTIES ] ****************/
 //Style
-import { defaultStyles } from '../../assets/styles/theme';
 
 /*********** [ COMPONENT ] ****************/
 const CompleteDatabase = () => {
@@ -17,45 +15,16 @@ const CompleteDatabase = () => {
     const apiCaller = new ApiOperations();
     //States    
     const [inProgress, setInProgress] = useState<number>(-1);
-    const [tablesKpi, setTablesKpi] = useState<any>(
-        {
-            "future": { "rejected": 0, "accepted": 0 },
-            "spot": { "rejected": 0, "accepted": 0 },
-            "staking": { "rejected": 0, "accepted": 0 },
-            "coldWallet": { "rejected": 0, "accepted": 0 }
-        }
-    );
+
     //Functions
-    const init = async () => {
+    const manageManualFiles = async (mode: string) => {
         setInProgress(1);
-        const res = await apiCaller.get('validate/stagingArea', 'databaseValidator');
+        const res = await apiCaller.get(`transactionsFile/handleManualFiles/${mode}`, 'loader');
         if (res !== undefined) {
-            setTablesKpi(res.results);
+            console.log(res);
             setInProgress(-1);
         }
     };
-
-    const loadManualFilesIntoTables = async () => {
-        const res = await apiCaller.get(`transactionsFile/handleManualFiles/insert`, 'loader');
-        if (res !== undefined) {
-            console.log(res);
-        }
-    };
-
-    const deleteManualFilesFromTables = async () => {
-        const res = await apiCaller.get(`transactionsFile/handleManualFiles/remove`, 'loader');
-        if (res !== undefined) {
-            console.log(res);
-        }
-    };
-
-    const loadTestingFiles = async () => {
-        const res = await apiCaller.get(`transactionsFile/handleManualFiles/testing`, 'loader');
-        if (res !== undefined) {
-            console.log(res);
-        }
-    };
-
 
     const emptyTables = async (mode: string) => {
         const res = await apiCaller.get(`emptyDB/${mode}`, 'debugger');
@@ -63,12 +32,7 @@ const CompleteDatabase = () => {
             console.log(res);
         }
     };
-
-
     //Effects
-    useEffect(() => {
-        //init();
-    }, []);
 
     //Render
     return (
@@ -84,13 +48,14 @@ const CompleteDatabase = () => {
                 }
                 {inProgress !== 1 &&
                     <Box display="flex" sx={{ '> .MuiButtonBase-root': { marginRight: '1em' } }}>
-                    <Button variant='contained' onClick={loadTestingFiles}>Charger les fichiers tests</Button>
-                    <Button variant='contained' onClick={loadManualFilesIntoTables}>Charger les fichiers manuels</Button>
-                    <Button variant='contained' onClick={deleteManualFilesFromTables}>Effacer les fichiers manuels</Button>
+                    <Button variant='contained' onClick={() => manageManualFiles('testing')}>Charger les fichiers tests</Button>
+                    <br />
+                    <Button variant='contained' onClick={() => manageManualFiles('neo')}>Charger le fichier NEO</Button>
+                    <Button variant='contained' onClick={() => manageManualFiles('removeNeo')}>Effacer le fichier NEO</Button>
+                    <br/>
+                    <Button variant='contained' onClick={() => manageManualFiles('insert')}>Charger les fichiers manuels</Button>
+                    <Button variant='contained' onClick={() => manageManualFiles('remove')}>Effacer les fichiers manuels</Button>
                     </Box>
-                }
-                {tablesKpi !== undefined &&
-                    <StagingTablesChecker tablesKpi={tablesKpi} />
                 }
             </Grid>
             <Grid item xs={12}>
