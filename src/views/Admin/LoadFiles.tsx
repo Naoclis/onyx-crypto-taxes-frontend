@@ -14,7 +14,7 @@ const LoadFiles = (props: any) => {
         { url: "/admin/files/load", label: "Chargement des fichiers" },
         { url: "/admin/files/control", label: "Contrôle des fichiers" },
         { url: "/admin/database/check", label: "Contrôle des stagings area" },
-        { url: "/admin/database/complete", label: "Ajout Fichier Manuel" },
+        { url: "/admin/database/complete", label: "Ajout Fichiers Manuels" },
     ];
     //Render
     return (

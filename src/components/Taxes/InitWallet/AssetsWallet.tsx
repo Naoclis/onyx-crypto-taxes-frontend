@@ -27,6 +27,7 @@ const AssetsWalletRow = (props: any) => {
             <TableCell>{item.asset}</TableCell>
             <TableCell>{item.qty}</TableCell>
             <TableCell>{item.date}</TableCell>
+            <TableCell>{item.timestamp}</TableCell>
             <TableCell><Switch checked={checked} onChange={(e) => updateAssetTestingLog(e, item.asset)} /></TableCell>
         </TableRow>
     );
@@ -51,6 +52,7 @@ const AssetsWallet = (props: any) => {
                         <TableCell>Asset</TableCell>
                         <TableCell>Quantité</TableCell>
                         <TableCell>Date</TableCell>
+                        <TableCell>Timestamp</TableCell>
                         <TableCell>Recette OK ?</TableCell>
                     </TableRow>
                 </TableHead>

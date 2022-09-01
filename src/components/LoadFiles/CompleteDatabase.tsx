@@ -49,6 +49,13 @@ const CompleteDatabase = () => {
         }
     };
 
+    const loadTestingFiles = async () => {
+        const res = await apiCaller.get(`transactionsFile/handleManualFiles/testing`, 'loader');
+        if (res !== undefined) {
+            console.log(res);
+        }
+    };
+
 
     const emptyTables = async (mode: string) => {
         const res = await apiCaller.get(`emptyDB/${mode}`, 'debugger');
@@ -77,6 +84,7 @@ const CompleteDatabase = () => {
                 }
                 {inProgress !== 1 &&
                     <Box display="flex" sx={{ '> .MuiButtonBase-root': { marginRight: '1em' } }}>
+                    <Button variant='contained' onClick={loadTestingFiles}>Charger les fichiers tests</Button>
                     <Button variant='contained' onClick={loadManualFilesIntoTables}>Charger les fichiers manuels</Button>
                     <Button variant='contained' onClick={deleteManualFilesFromTables}>Effacer les fichiers manuels</Button>
                     </Box>
@@ -91,6 +99,7 @@ const CompleteDatabase = () => {
                 <Box display="flex" sx={{ '> .MuiButtonBase-root': { marginRight: '1em' } }}>
                     <Button variant='contained' onClick={() => emptyTables('all')}>Vider toutes les tables</Button>
                     <Button variant='contained' onClick={() => emptyTables('staging')}>Vider Staging Tables</Button>
+                    <Button variant='contained' onClick={() => emptyTables('test')}>Vider les tables Testing</Button>
                     <Button variant='contained' onClick={() => emptyTables('definitive')}>Vider les tables définitives</Button>
                 </Box>
             </Grid>

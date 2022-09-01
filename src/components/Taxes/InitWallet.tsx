@@ -27,7 +27,7 @@ const InitWallet = () => {
         setInProgress(1);
         const res = await apiCaller.get('get/assetsEvolution/all', 'taxesCalculator');
         if (res !== undefined) {
-            const assetsList = res.assets.map((item: any) => ({ _id: item, label: item }));
+            const assetsList = res.assets.sort().map((item: any) => ({ _id: item, label: item }));
             setAssetsList(assetsList);
             setUniqueWallet(res.wallet);
             setFilteredWallet(res.wallet.filter((el: any) => el.asset === 'CAKE'));

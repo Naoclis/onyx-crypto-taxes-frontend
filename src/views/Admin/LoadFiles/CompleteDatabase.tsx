@@ -7,7 +7,7 @@ import CompleteDatabase from '../../../components/LoadFiles/CompleteDatabase';
 
 /*********** [ COMPONENT ] ****************/
 const ControlDatabase = () => {
-    const title = "Ajout Fichier Manuel";
+    const title = "Ajout Fichiers Manuels";
     //Render
     return (
         <LoadFiles selectedMenuItem={title}>
