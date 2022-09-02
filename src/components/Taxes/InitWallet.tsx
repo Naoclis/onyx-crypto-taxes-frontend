@@ -22,6 +22,7 @@ const InitWallet = () => {
     const [inProgress, setInProgress] = useState<number>(-1);
     const [assetsStatus, setAssetsStatus] = useState([]);
     const [assetsList, setAssetsList] = useState([]);
+    const [asset, setAsset] = useState('BNB');
     //Functions
     const init = async () => {
         setInProgress(1);
@@ -30,7 +31,7 @@ const InitWallet = () => {
             const assetsList = res.assets.sort().map((item: any) => ({ _id: item, label: item }));
             setAssetsList(assetsList);
             setUniqueWallet(res.wallet);
-            setFilteredWallet(res.wallet.filter((el: any) => el.asset === 'USDT'));
+            setFilteredWallet(res.wallet.filter((el: any) => el.asset === asset));
             setInProgress(-1);
         }
     };
@@ -94,7 +95,7 @@ const InitWallet = () => {
             </Grid>
             <Grid item xs={6}>
                 
-                <MyComboBox items={assetsList} label="Choix de l'asset" id="selectAsset" onChange={selectAsset}/>
+                <MyComboBox items={assetsList} label="Choix de l'asset" id="selectAsset" onChange={selectAsset} init={asset}/>
                 <AssetsWallet wallet={filteredWallet} updateLog={updateLog} />
                 
             </Grid>

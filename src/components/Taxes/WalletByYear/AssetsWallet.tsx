@@ -9,28 +9,6 @@ import { Box, Switch, Table, TableBody, TableCell, TableHead, TableRow } from '@
 import { defaultStyles } from '../../../assets/styles/theme';
 
 /*********** [ COMPONENT ] ****************/
-const AssetsWalletRow = (props: any) => {
-    const { item } = props;
-
-    const [checked, setChecked] = React.useState(false);
-
-    //Functions
-    const updateAssetTestingLog = (event: React.ChangeEvent<HTMLInputElement>, asset: string) => {
-        setChecked(event.target.checked);
-    };
-
-    //Render
-    return (
-        <TableRow>
-            <TableCell>{item.exchange}</TableCell>
-            <TableCell>{item.asset}</TableCell>
-            <TableCell>{item.qty}</TableCell>
-            <TableCell>{item.date}</TableCell>
-            {/*<TableCell><Switch checked={checked} onChange={(e) => updateAssetTestingLog(e, item.asset)} /></TableCell>*/}
-        </TableRow>
-    );
-}
-
 const AssetsWallet = (props: any) => {
     const { year, ethMined, view, testingView } = props;
     //Variables

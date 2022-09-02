@@ -14,6 +14,7 @@ const LoadFiles = (props: any) => {
         { url: "/admin/taxes/init", label: "Création du portefeuille" },
         { url: "/admin/taxes/stateByYear", label: "Vision annuelle portefeuille" },
         { url: "/admin/taxes/compareStateByYear", label: "Comparaison Ordres Portefeuille" },
+        { url: "/admin/taxes/evaluate", label: "Valorisation du portefeuille" },
     ];
     //Render
     return (
