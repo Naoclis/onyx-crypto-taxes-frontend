@@ -28,7 +28,7 @@ const AssetsWalletRow = (props: any) => {
             <TableCell>{item.qty}</TableCell>
             <TableCell>{item.date}</TableCell>
             <TableCell>{item.timestamp}</TableCell>
-            <TableCell><Switch checked={checked} onChange={(e) => updateAssetTestingLog(e, item.asset)} /></TableCell>
+            {/*<TableCell><Switch checked={checked} onChange={(e) => updateAssetTestingLog(e, item.asset)} /></TableCell>*/}
         </TableRow>
     );
 }

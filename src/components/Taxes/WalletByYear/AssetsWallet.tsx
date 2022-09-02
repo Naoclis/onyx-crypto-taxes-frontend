@@ -26,7 +26,7 @@ const AssetsWalletRow = (props: any) => {
             <TableCell>{item.asset}</TableCell>
             <TableCell>{item.qty}</TableCell>
             <TableCell>{item.date}</TableCell>
-            <TableCell><Switch checked={checked} onChange={(e) => updateAssetTestingLog(e, item.asset)} /></TableCell>
+            {/*<TableCell><Switch checked={checked} onChange={(e) => updateAssetTestingLog(e, item.asset)} /></TableCell>*/}
         </TableRow>
     );
 }
@@ -95,23 +95,6 @@ const AssetsView = (props: any) => {
     //Render
     return (
         <Box>
-
-            <Box>
-                Recette Comparative :
-                <ul>
-                    <li>2018 : OK</li>
-                    <li>2019 : OK, petit diff dans ETH (64,21210869 attendu, j'en trouve  (diff de 0,006)</li>
-                    <li>2020 : OK, petit diff dans ETH (même différence que l'année précédente, ce qui est logique et rassurant )</li>
-                    <li>2021 : KO
-                        <br />
-                        BTC : attendu 0,6957505
-                        <br />
-                        ETH : attendu 97,97366402; je suis à 
-                        <br />
-                        USDT : attendu 6403,008398
-                    </li>
-                </ul>
-            </Box>
             {views.map((item: any, index: number) =>
                 <AssetsWallet key={index} view={item.view} year={item.year} ethMined={item.ethMined} testingView={item.testingView}/>
             )}

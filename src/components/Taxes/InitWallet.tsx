@@ -30,7 +30,7 @@ const InitWallet = () => {
             const assetsList = res.assets.sort().map((item: any) => ({ _id: item, label: item }));
             setAssetsList(assetsList);
             setUniqueWallet(res.wallet);
-            setFilteredWallet(res.wallet.filter((el: any) => el.asset === 'CAKE'));
+            setFilteredWallet(res.wallet.filter((el: any) => el.asset === 'USDT'));
             setInProgress(-1);
         }
     };
