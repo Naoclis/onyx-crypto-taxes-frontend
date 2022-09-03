@@ -8,13 +8,10 @@ import Menu from '../../components/Menus/Menu';
 /********** [ PROPERTIES ] ****************/
 
 /*********** [ COMPONENT ] ****************/
-const Taxes = (props: any) => {
+const TaxesDashboard = (props: any) => {
     const { selectedMenuItem } = props;
     const menuItems = [
-        { url: "/taxes/init", label: "Création du portefeuille" },
-        { url: "/taxes/prepare/wallet/stateByYear", label: "Vision annuelle portefeuille" },
-        { url: "/taxes/check/wallet/compareStateByYear", label: "Comparaison Ordres Portefeuille" },
-        { url: "/taxes/evaluate/wallet", label: "Valorisation du portefeuille" },
+        { url: "/taxes/manage", label: "Vision Impôts" },
     ];
     //Render
     return (
@@ -27,4 +24,4 @@ const Taxes = (props: any) => {
     );
 };
 
-export default memo(Taxes);
+export default memo(TaxesDashboard);

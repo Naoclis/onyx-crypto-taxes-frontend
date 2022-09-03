@@ -1,5 +1,5 @@
 /********** [  LIBRARIES  ] ***************/
-import React, { memo, useState } from 'react';
+import React, { memo } from 'react';
 import { Box } from '@mui/material';
 /********* [ MY LIBRARIES ] ***************/
 //Components
@@ -11,10 +11,10 @@ import Menu from '../../components/Menus/Menu';
 const LoadFiles = (props: any) => {
     const { selectedMenuItem } = props;
     const menuItems = [
-        { url: "/admin/files/load", label: "Chargement des fichiers" },
-        { url: "/admin/files/control", label: "Contrôle des fichiers" },
-        { url: "/admin/database/check", label: "Contrôle des stagings area" },
-        { url: "/admin/database/complete", label: "Ajout Fichiers Manuels" },
+        { url: "/files/load", label: "Chargement des fichiers" },
+        { url: "/files/control", label: "Contrôle des fichiers" },
+        { url: "/database/check", label: "Contrôle des stagings area" },
+        { url: "/database/complete", label: "Ajout Fichiers Manuels" },
     ];
     //Render
     return (

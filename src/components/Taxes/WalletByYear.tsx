@@ -28,6 +28,13 @@ const WalletByYear = () => {
         }
     };
 
+    const updateFDYStates = async () => {
+        setInProgress(1);
+        const res = await apiCaller.get('generate/assetsEvolution/byYear', 'taxesCalculator');
+        //if (res !== undefined) {
+        //    await init();
+        //}
+    };
 
     //Effects
     useEffect(() => {
@@ -38,6 +45,7 @@ const WalletByYear = () => {
     return (
         <Grid container spacing={4}>
             <Grid item xs={12}>
+                <Button variant="contained" onClick={updateFDYStates}>Rafraîchir Etats Portefeuille au 01 janvier</Button>
                 {inProgress === 1 &&
                     <Box mb={2}>
                         <Loader message="Action en cours" />

@@ -38,7 +38,7 @@ const InitWallet = () => {
 
     const updateAssetsEvolution = async () => {
         setInProgress(1);
-        const res = await apiCaller.get('generate/wallet', 'taxesCalculator');
+        const res = await apiCaller.get('generate/assetsEvolution/all', 'taxesCalculator');
         if (res !== undefined) {
             await init();
         }

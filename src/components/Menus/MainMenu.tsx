@@ -54,15 +54,16 @@ const Menu = () => {
                 </Box>
                 
                 <Box sx={styles.links}>
-                    <Button variant="outlined" color="primary" component={NavLink} to="/admin/files/load">Gestion Fichiers Source</Button>
-                    <Button variant="outlined" color="primary" component={NavLink} to="/admin/taxes/init">Gestion Impôts</Button>
+                    <Button variant="outlined" color="primary" component={NavLink} to="/files/load">Gestion Fichiers Sources</Button>
+                    <Button variant="outlined" color="primary" component={NavLink} to="/taxes/init">Calcul Impôts</Button>
+                    <Button variant="outlined" color="primary" component={NavLink} to="/taxes/manage">Gestion Impôts</Button>
                 </Box>
 
                 <Box sx={styles.grow} />
 
                 <Box>
-                    <MenuIcon title="Notes Projet" url="/admin/help" icon={<HelpIcon />}/>
-                    <MenuIcon title="Debug" url="/admin/debug" icon={<ImportantDevicesIcon />} />
+                    <MenuIcon title="Notes Projet" url="/help" icon={<HelpIcon />}/>
+                    <MenuIcon title="Debug" url="/debug" icon={<ImportantDevicesIcon />} />
                 </Box>
             </Toolbar>
         </AppBar>
