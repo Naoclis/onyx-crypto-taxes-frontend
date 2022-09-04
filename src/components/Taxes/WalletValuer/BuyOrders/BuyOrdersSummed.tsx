@@ -6,13 +6,13 @@ import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 
 /********** [ PROPERTIES ] ****************/
 //Style
-import { defaultStyles } from '../../../assets/styles/theme';
+import { defaultStyles } from '../../../../assets/styles/theme';
 
 /*********** [ COMPONENT ] ****************/
-const WalletValorSummedRows = (props: any) => {
+const BuyOrdersSummedRows = (props: any) => {
     const { num, date, rows } = props;
     //Variables
-    const sum = rows.reduce((prev: any, curr: any) => (prev + curr.value), 0);
+    const sum = rows.reduce((prev: any, curr: any) => (prev + parseFloat(curr.amount.value)), 0);
     //States
     //Functions
 
@@ -28,13 +28,14 @@ const WalletValorSummedRows = (props: any) => {
     );
 };
 
-const WalletValorSummed = (props: any) => {
-    const { valuedStateRows } = props;
+const BuyOrdersSummed = (props: any) => {
+    const { yearOrders } = props;
     //Variables
-    const sum = valuedStateRows.reduce((prev: any, curr: any) => {
-        const assetsSum = curr.assets.reduce((_prev: any, _curr: any) => (_prev + _curr.value), 0);
-        return prev + assetsSum;        
+    const sum = yearOrders.reduce((prev: any, curr: any) => {
+        const assetsSum = curr.orders.reduce((_prev: any, _curr: any) => (_prev + parseFloat(_curr.amount.value)), 0);
+        return prev + assetsSum;
     }, 0);
+
     //States
     //Functions
 
@@ -47,12 +48,12 @@ const WalletValorSummed = (props: any) => {
                 <TableRow>
                     <TableCell>Cession N°</TableCell>
                     <TableCell>Date et Heure de cession</TableCell>
-                    <TableCell>Valeur globale du portefeuille au moment de la cession</TableCell>
+                    <TableCell>Investissement cumulé EUR jusqu'à la cession</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
-                {valuedStateRows.map((state: any, index: number) =>
-                    (<WalletValorSummedRows rows={state.assets} num={index + 1} date={state.date} key={index} />)
+                {yearOrders.map((state: any, index: number) =>
+                    (<BuyOrdersSummedRows rows={state.orders} num={index + 1} date={state.date} key={index} />)
                 )}
                 <TableRow>
                     <TableCell colSpan={3}>Total : {sum.toFixed(2)}</TableCell>
@@ -62,4 +63,4 @@ const WalletValorSummed = (props: any) => {
     );
 };
 
-export default WalletValorSummed;
+export default BuyOrdersSummed;

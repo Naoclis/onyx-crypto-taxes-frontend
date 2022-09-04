@@ -31,9 +31,10 @@ const WalletByYear = () => {
     const updateFDYStates = async () => {
         setInProgress(1);
         const res = await apiCaller.get('generate/assetsEvolution/byYear', 'taxesCalculator');
-        //if (res !== undefined) {
-        //    await init();
-        //}
+        if (res !== undefined) {
+            await init();
+            setInProgress(-1);
+        }
     };
 
     //Effects

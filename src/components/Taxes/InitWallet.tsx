@@ -41,6 +41,7 @@ const InitWallet = () => {
         const res = await apiCaller.get('generate/assetsEvolution/all', 'taxesCalculator');
         if (res !== undefined) {
             await init();
+            setInProgress(-1);
         }
     };
 
@@ -64,7 +65,6 @@ const InitWallet = () => {
             existItem[0].isOK = checked;
             setAssetsStatus((prev: any) => prev.concat());
         }
-        console.log(assetsStatus);
     }
 
     //Effects
