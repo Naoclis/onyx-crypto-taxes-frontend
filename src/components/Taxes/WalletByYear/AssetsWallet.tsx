@@ -1,6 +1,6 @@
 /********** [  LIBRARIES  ] ***************/
 import React from 'react';
-import { Box, Switch, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Box, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 /********* [ MY LIBRARIES ] ***************/
 //Components
 
@@ -10,7 +10,7 @@ import { defaultStyles } from '../../../assets/styles/theme';
 
 /*********** [ COMPONENT ] ****************/
 const AssetsWallet = (props: any) => {
-    const { year, ethMined, view, testingView } = props;
+    const { year, ethMined, totalMinedEth, view, testingView } = props;
     //Variables
 
     //States
@@ -41,6 +41,8 @@ const AssetsWallet = (props: any) => {
         <Box>
             <h1>Etat du portefeuille au 01/01/{year}</h1>
             <h4>ETH produit sur l'année précédente : {ethMined}</h4>
+            <h4>Cumul ETH produits : {totalMinedEth}</h4>
+            {["2019", "2020", "2021", "2022"].includes(year) && <h5>J'ai 0.006027 de frais ETH qui explique pourquoi la différence en rouge est légèrement inférieure à l'ETH miné : {totalMinedEth} - 0.006027 = {totalMinedEth - 0.006027}</h5>}
             <Table sx={defaultStyles.table}>
                 <TableHead>
                     <TableRow>
@@ -74,7 +76,7 @@ const AssetsView = (props: any) => {
     return (
         <Box>
             {views.map((item: any, index: number) =>
-                <AssetsWallet key={index} view={item.view} year={item.year} ethMined={item.ethMined} testingView={item.testingView}/>
+                <AssetsWallet key={index} view={item.view} year={item.year} ethMined={item.ethMined} totalMinedEth={item.totalMinedEth} testingView={item.testingView}/>
             )}
         </Box>
     );
