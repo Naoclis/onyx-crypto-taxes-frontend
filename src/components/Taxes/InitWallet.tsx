@@ -70,10 +70,8 @@ const InitWallet = () => {
         setInProgress(1);
         const res = await apiCaller.post('extract/fromDate', { date: date }, 'taxesCalculator');
         if (res !== undefined) {
-            console.log(res.extract);
             setRows(res.extract);
         }
-
         setInProgress(-1);
     }
 

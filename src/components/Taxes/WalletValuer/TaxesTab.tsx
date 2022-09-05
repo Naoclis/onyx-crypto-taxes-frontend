@@ -16,11 +16,8 @@ const TaxesTab = (props: any) => {
     //Render
     return (
         <Grid container spacing={4}>
-            <Grid item xs={10}>
+            <Grid item xs={12}>
                 <TaxesByYear taxes={taxes} ldyStates={ldyStates}/>
-            </Grid>
-            <Grid item xs={2}>
-                Rien ici pour le moment
             </Grid>
         </Grid>
     );

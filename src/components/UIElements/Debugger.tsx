@@ -12,7 +12,7 @@ import { defaultStyles } from '../../assets/styles/theme';
 const Debugger = (props: any) => {
     const { rows } = props;
     //Variables
-
+    const total = rows.reduce((p: number, el: any) => (p + el.value), 0);
     //States
     //Functions
 
@@ -39,6 +39,9 @@ const Debugger = (props: any) => {
                             <TableCell>{item.value}</TableCell>
                         </TableRow>
                     )}
+                    <TableRow>
+                        <TableCell colSpan={4}>{total}</TableCell>
+                    </TableRow>
                 </TableBody>
             </Table>
         </Box>
