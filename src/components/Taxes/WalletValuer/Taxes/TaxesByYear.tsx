@@ -23,7 +23,7 @@ const TaxesByYear = (props: any) => {
             (<Box mb={2} key={index}>
                 <h1>Année : {year}</h1>
                 <Box mb={2}>
-                    <LDYWallet state={ldyStates.filter((el: any) => el.year === year.toString())} />
+                    <LDYWallet state={ldyStates.filter((el: any) => el.year === (year-1).toString())} />
                 </Box>
                 <Box mb={2}>
                     <TaxesRow taxes={taxes.filter((el: any) => el.year === year.toString())} />
