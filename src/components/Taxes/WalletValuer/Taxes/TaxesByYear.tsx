@@ -4,6 +4,7 @@ import { Box } from '@mui/material';
 /********* [ MY LIBRARIES ] ***************/
 //Components
 import TaxesRow from './TaxesRow';
+import LDYWallet from './LDYWallet';
 //Api
 
 /********** [ PROPERTIES ] ****************/
@@ -12,21 +13,8 @@ import TaxesRow from './TaxesRow';
 /*********** [ COMPONENT ] ****************/
 
 const TaxesByYear = (props: any) => {
-    const { taxes } = props;
+    const { taxes, ldyStates } = props;
     const years = [2017, 2018, 2019, 2020, 2021, 2022];
-
-    const getFractionsStartIndex = (year: number) => {
-        const fractionIndexes = [];
-        for (const year of years) {
-            const hasRows = taxes.filter((el: any) => el.year === year.toString());
-            const nbRows = (hasRows.length > 0) ? hasRows[0].taxes.length : 0;
-            fractionIndexes.push({ year: year, startIndex: nbRows });
-        }
-        const index = fractionIndexes.filter((el: any) => el.year === year)[0].startIndex;
-        console.log(fractionIndexes);
-        return index;
-    }
-
 
     //Render
     return (
@@ -34,7 +22,12 @@ const TaxesByYear = (props: any) => {
             {years.map((year: number, index: number) =>
             (<Box mb={2} key={index}>
                 <h1>Année : {year}</h1>
-                <TaxesRow taxes={taxes.filter((el: any) => el.year === year.toString())} fractionsIndex={getFractionsStartIndex(year)}/>
+                <Box mb={2}>
+                    <LDYWallet state={ldyStates.filter((el: any) => el.year === year.toString())} />
+                </Box>
+                <Box mb={2}>
+                    <TaxesRow taxes={taxes.filter((el: any) => el.year === year.toString())} />
+                </Box>
             </Box>)
             )}
         </Box>

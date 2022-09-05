@@ -11,13 +11,13 @@ import TaxesByYear from './Taxes/TaxesByYear';
 
 /*********** [ COMPONENT ] ****************/
 const TaxesTab = (props: any) => {
-    const { taxes } = props;
+    const { taxes, ldyStates } = props;
 
     //Render
     return (
         <Grid container spacing={4}>
             <Grid item xs={10}>
-                <TaxesByYear taxes={taxes} />
+                <TaxesByYear taxes={taxes} ldyStates={ldyStates}/>
             </Grid>
             <Grid item xs={2}>
                 Rien ici pour le moment

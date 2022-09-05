@@ -10,10 +10,10 @@ import { defaultStyles } from '../../../../assets/styles/theme';
 
 /*********** [ COMPONENT ] ****************/
 const TaxesRow = (props: any) => {
-    const { fractionsIndex, taxes } = props;
+    const { taxes } = props;
 
     const rows = (taxes.length > 0) ? taxes[0].taxes : [];
-    const totalPnL = (rows.length > 0) ? rows.reduce((p: number, c: any) => (p + c.profitAndLoss),0) : 0;
+    const totalPnL = (rows.length > 0) ? rows.reduce((p: number, c: any) => (p + c.profitAndLoss), 0) : 0;
     //Variables
 
     //States
@@ -57,7 +57,7 @@ const TaxesRow = (props: any) => {
                         <TableCell>{item.amountWithoutSoulte.toFixed()}</TableCell>
                         <TableCell>{item.netAmount.toFixed()}</TableCell>
                         <TableCell>{item.acquisitionPrice.toFixed()}</TableCell>
-                        <TableCell>{item.capitalFractions[fractionsIndex + index].toFixed()}</TableCell>
+                        <TableCell>{item.capitalFraction.toFixed()}</TableCell>
                         <TableCell>{item.netAcquisitionPrice.toFixed()}</TableCell>
                         <TableCell>{item.profitAndLoss.toFixed(2)}</TableCell>
                     </TableRow>

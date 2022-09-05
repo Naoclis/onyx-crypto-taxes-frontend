@@ -24,17 +24,19 @@ const WalletValuer = (props: any) => {
     const [walletValor, setWalletValor] = useState([]);
     const [buyOrders, setBuyOrders] = useState([]);
     const [taxes, setTaxes] = useState([]);
+    const [ldyWalletStates, setLDYWalletStates] = useState([]);
     const [inProgress, setInProgress] = useState<number>(-1);
-    const [tabDisplayed, setTabDisplayed] = useState<number>(3);
+    const [tabDisplayed, setTabDisplayed] = useState<number>(0);
     //Functions
     const init = async () => {
         setInProgress(1);
         const res = await apiCaller.get('get/walletValor/sellOrders', 'taxesCalculator');
         if (res !== undefined) {
-            const { sellOrders, walletValor, buyOrders, taxes } = res;
+            const { sellOrders, walletValor, buyOrders, ldyWalletStates, taxes } = res;
             setSellOrders(sellOrders);
             setWalletValor(walletValor);
             setBuyOrders(buyOrders);
+            setLDYWalletStates(ldyWalletStates);
             setTaxes(taxes);
             setInProgress(-1);
         }
@@ -80,8 +82,8 @@ const WalletValuer = (props: any) => {
             <Grid item xs={12}>
                 <Box mb={2} mt={2} sx={{ '& > .MuiButtonBase-root': { marginRight: '1em' } }}>
                     <Button variant="contained" onClick={() => updateTab(0)}>Cessions</Button>
-                    <Button variant="contained" onClick={() => updateTab(1)}>Etat Portefeuille Par Cession</Button>
-                    <Button variant="contained" onClick={() => updateTab(2)}>Ordre d'Acquisition Par Cession</Button>
+                    <Button variant="contained" onClick={() => updateTab(1)}>Valor. Portefeuille Par Cession</Button>
+                    <Button variant="contained" onClick={() => updateTab(2)}>Prix Acquisition Par Cession</Button>
                     <Button variant="contained" onClick={() => updateTab(3)}>Synthèse</Button>
                 </Box>
 
@@ -103,7 +105,7 @@ const WalletValuer = (props: any) => {
                         {tabDisplayed === 0 && <SellOrdersTab orders={sellOrders} />}
                         {tabDisplayed === 1 && <WalletValorizationTab valuedStates={walletValor} />}
                     {tabDisplayed === 2 && <BuyOrdersTab orders={buyOrders} />}
-                    {tabDisplayed === 3 && <TaxesTab taxes={taxes} />}
+                    {tabDisplayed === 3 && <TaxesTab taxes={taxes} ldyStates={ldyWalletStates}/>}
                     </React.Fragment>
                 }                
             </Grid>
