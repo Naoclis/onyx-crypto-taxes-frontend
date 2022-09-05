@@ -1,10 +1,11 @@
 /********** [  LIBRARIES  ] ***************/
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Grid } from '@mui/material';
+import { Box, Button, Grid, TextField } from '@mui/material';
 /********* [ MY LIBRARIES ] ***************/
 //Components
 import Loader from '../../components/UIElements/Loader';
 import MyComboBox from '../../components/UIElements/MyComboBox';
+import Debugger from '../../components/UIElements/Debugger';
 import AssetsWallet from './InitWallet/AssetsWallet';
 //Api
 import ApiOperations from '../../shared/apiOperations';
@@ -13,6 +14,7 @@ import ApiOperations from '../../shared/apiOperations';
 //Style
 
 /*********** [ COMPONENT ] ****************/
+
 const InitWallet = () => {
     //Variables
     const apiCaller = new ApiOperations();
@@ -20,9 +22,11 @@ const InitWallet = () => {
     const [uniqueWallet, setUniqueWallet] = useState<any>([]);
     const [filteredWallet, setFilteredWallet] = useState([]);
     const [inProgress, setInProgress] = useState<number>(-1);
-    const [assetsStatus, setAssetsStatus] = useState([]);
     const [assetsList, setAssetsList] = useState([]);
     const [asset, setAsset] = useState('BNB');
+
+    const [date, setDate] = useState('2020-11-07 00:20:01');
+    const [rows, setRows] = useState([]);
     //Functions
     const init = async () => {
         setInProgress(1);
@@ -48,6 +52,7 @@ const InitWallet = () => {
     const selectAsset = (value:any) => {
         if (value !== '-1') {
             const wallet = uniqueWallet.filter((el: any) => el.asset === value);
+            setAsset(value);
             setFilteredWallet(wallet);
         }
         else {
@@ -55,16 +60,21 @@ const InitWallet = () => {
         }
     }
 
-    const updateLog = (asset:string, checked: boolean) => {
-        const itemToHandle = { asset: asset, isOK: checked };
-        const existItem: Array<typeof itemToHandle> = assetsStatus.filter((el: any) => el.asset === asset);
-        if (existItem.length < 1) {
-            setAssetsStatus((prev: any) => prev.concat([itemToHandle]));
+    //
+    const updateDate = (event: any) => {
+        const value = event.target.value;
+        setDate(value);
+    }
+
+    const getExtract = async () => {
+        setInProgress(1);
+        const res = await apiCaller.post('extract/fromDate', { date: date }, 'taxesCalculator');
+        if (res !== undefined) {
+            console.log(res.extract);
+            setRows(res.extract);
         }
-        else if (existItem.length > 0) {
-            existItem[0].isOK = checked;
-            setAssetsStatus((prev: any) => prev.concat());
-        }
+
+        setInProgress(-1);
     }
 
     //Effects
@@ -75,7 +85,7 @@ const InitWallet = () => {
     //Render
     return (
         <Grid container spacing={4}>            
-            <Grid item xs={6}>
+            <Grid item xs={12}>
                 En 2022, pour les cryptos, il y a pas mal d'hypothèses à prendre pour faire sa déclaration au FISC français.
                 On va toujours aller au plus simple en partant du principe fondamental : seule la conversion en monnaie FIAT est imposable.
                 Partant de là, il va y avoir 2 grands types de mouvements : les mouvements crypto - crypto, et les mouvements crypto - fiat.
@@ -89,15 +99,20 @@ const InitWallet = () => {
                     <Loader message="Action en cours" />
                 }
                 <Button variant="contained" onClick={updateAssetsEvolution}>Rafraîchir Portefeuille Suivi Evolution Assets</Button>
-            </Grid>
-            <Grid item xs={6}>
-                Espace
+                <Box mt={2} display="flex">
+                    <TextField id="outlined-basic" label="Outlined" variant="outlined" value={date} onChange={updateDate}/>
+                    <Button variant="contained" onClick={getExtract}>Demander Extract</Button>
+                </Box>
             </Grid>
             <Grid item xs={6}>
                 
                 <MyComboBox items={assetsList} label="Choix de l'asset" id="selectAsset" onChange={selectAsset} init={asset}/>
-                <AssetsWallet wallet={filteredWallet} updateLog={updateLog} />
+                <AssetsWallet wallet={filteredWallet}/>
                 
+            </Grid>
+
+            <Grid item xs={6}>
+                <Debugger rows={rows} />
             </Grid>
         </Grid>
     );

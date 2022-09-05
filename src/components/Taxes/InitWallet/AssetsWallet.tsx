@@ -10,15 +10,9 @@ import { defaultStyles } from '../../../assets/styles/theme';
 
 /*********** [ COMPONENT ] ****************/
 const AssetsWalletRow = (props: any) => {
-    const { item, updateLog } = props;
-
-    const [checked, setChecked] = React.useState(false);
+    const { item } = props;
 
     //Functions
-    const updateAssetTestingLog = (event: React.ChangeEvent<HTMLInputElement>, asset: string) => {
-        setChecked(event.target.checked);
-        updateLog(asset, event.target.checked);
-    };
 
     //Render
     return (
@@ -28,7 +22,6 @@ const AssetsWalletRow = (props: any) => {
             <TableCell>{item.qty}</TableCell>
             <TableCell>{item.date}</TableCell>
             <TableCell>{item.timestamp}</TableCell>
-            {/*<TableCell><Switch checked={checked} onChange={(e) => updateAssetTestingLog(e, item.asset)} /></TableCell>*/}
         </TableRow>
     );
 }
