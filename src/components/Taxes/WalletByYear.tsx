@@ -5,7 +5,6 @@ import { Box, Button, Grid } from '@mui/material';
 //Components
 import Loader from '../../components/UIElements/Loader';
 import AssetsView from './WalletByYear/AssetsWallet';
-import Debug from './WalletByYear/Debug';
 //Api
 import ApiOperations from '../../shared/apiOperations';
 
@@ -19,7 +18,6 @@ const WalletByYear = () => {
     //States    
     const [yearWalletViews, setYearWalletViews] = useState([]);
     const [inProgress, setInProgress] = useState<number>(-1);
-    const [debug, setDebug] = useState([]);
     //Functions
     const init = async () => {
         setInProgress(1);
@@ -27,12 +25,6 @@ const WalletByYear = () => {
         if (res !== undefined) {
             setYearWalletViews(res.views);
             
-        }
-        res = await apiCaller.get('generate/assetsEvolution/debug', 'taxesCalculator');
-        if (res !== undefined) {
-            const { ethermine, cruxpool } = res;
-
-            setDebug(ethermine.concat(cruxpool));
         }
         setInProgress(-1);
     };
@@ -62,9 +54,6 @@ const WalletByYear = () => {
                     <Box mb={2}>
                         <Loader message="Action en cours" />
                     </Box>
-                }
-                {inProgress !== 1 &&
-                    <Debug rows={debug} />
                 }
                 {inProgress !== 1 &&
                     <AssetsView views={yearWalletViews}/>
