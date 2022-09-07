@@ -1,24 +1,64 @@
 /********** [  LIBRARIES  ] ***************/
 import React from 'react';
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Box, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 /********* [ MY LIBRARIES ] ***************/
 //Components
 
 /********** [ PROPERTIES ] ****************/
 //Style
-import { defaultStyles } from '../../../../assets/styles/theme';
+import { defaultStyles, palette } from '../../../../assets/styles/theme';
 
+const styles = {
+    details: {
+        'tr td': {
+            backgroundColor: palette.background.black,
+            color: 'white',
+        },
+        'tr th': {
+            backgroundColor: palette.purple[500],
+            fontWeight: 'bold'
+        },
+        'td, th': {
+            border: 1,
+            padding: '2px',
+            textAlign: 'center',
+        },
+    }
+};
 /*********** [ COMPONENT ] ****************/
-const AcquisitionPrice = (props: any) => {
-    const { ldyStates } = props;
+const AcquisitionPriceAssetDetails = (props: any) => {
+    const { details } = props;
+
+    //Render
+    return (
+        <Table sx={styles.details}>
+            <TableHead>
+                <TableRow>
+                    <TableCell>Date</TableCell>
+                    <TableCell>Qté (ajout/retrait)</TableCell>
+                    <TableCell>Qté (total)</TableCell>
+                    <TableCell>Prix moyen</TableCell>
+                </TableRow>
+            </TableHead>
+            <TableBody>
+                {details.map((item: any, index: number) =>
+                    <TableRow key={index}>
+                        <TableCell>{item.date}</TableCell>
+                        <TableCell>{item.orderQty.toFixed(2)}</TableCell>
+                        <TableCell>{item.newQtyTotal.toFixed(2)}</TableCell>
+                        <TableCell>{item.acquisitionPrice.toFixed(2)}</TableCell>
+                    </TableRow>
+                )}
+            </TableBody>
+        </Table>
+    );
+};
+
+
+const AcquisitionPriceAssets = (props: any) => {
+    const { assets } = props;
+
     //Variables
-    //const adaptedOrders = orders.map((el: any) => {
-    //    ['qty', 'amount', 'fee'].forEach((key: string) => {
-    //        el[key].value = parseFloat(el[key].value).toFixed(2);
-    //        el[key].originalValue = parseFloat(el[key].originalValue).toFixed(2);
-    //    });
-    //    return el;
-    //});
     //States
     //Functions
 
@@ -29,35 +69,49 @@ const AcquisitionPrice = (props: any) => {
         <Table sx={defaultStyles.table}>
             <TableHead>
                 <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Qt�</TableCell>
-                    <TableCell>Qt� (asset)</TableCell>
-                    <TableCell>Montant</TableCell>
-                    <TableCell>Montant (asset)</TableCell>
-                    <TableCell>Frais</TableCell>
-                    <TableCell>Frais (asset)</TableCell>
-                    <TableCell>Taux de change</TableCell>
-                    <TableCell>Montant origine</TableCell>
-                    <TableCell>Frais origine</TableCell>
+                    <TableCell>Asset</TableCell>
+                    <TableCell>Qté</TableCell>
+                    <TableCell>Prix moyen annuel</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
-                {ldyStates.map((item: any, index: number) =>
-                    <TableRow key={index}>
-                        <TableCell>{item.transactionDate}</TableCell>
-                        <TableCell>{item.amount.value}</TableCell>
-                        <TableCell>{item.amount.asset}</TableCell>
-                        <TableCell>{item.qty.value}</TableCell>
-                        <TableCell>{(item.qty.conversionType === 'USD->EUR') ? 'EUR' : item.qty.asset}</TableCell>
-                        <TableCell>{item.fee.value}</TableCell>
-                        <TableCell>{(item.fee.conversionType === 'USD->EUR') ? 'EUR' : item.fee.asset}</TableCell>
-                        <TableCell>{Math.round(1 / item.qty.changeRate * 10000) / 10000}</TableCell>
-                        <TableCell>{(item.qty.conversionType === 'USD->EUR') && `${item.qty.originalValue} USD`}</TableCell>
-                        <TableCell>{(item.fee.conversionType === 'USD->EUR') && `${item.fee.originalValue} USD`}</TableCell>
-                    </TableRow>
+                {assets.map((item: any, index: number) =>
+                    <React.Fragment key={index}>
+                        <TableRow>
+                            <TableCell>{item.asset}</TableCell>
+                            <TableCell>{item.qty.toFixed(2)}</TableCell>
+                            <TableCell>{item.price.toFixed(2)}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell colSpan={3}>
+                                <AcquisitionPriceAssetDetails details={item.details} />                                
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell colSpan={3} sx={{ '&.MuiTableCell-root': {backgroundColor:'black'}}}>&nbsp;</TableCell>
+                        </TableRow>
+                    </React.Fragment>
                 )}
             </TableBody>
         </Table>
+    );
+};
+
+const AcquisitionPrice = (props: any) => {
+    const { ldyStates } = props;
+    //Variables
+
+    //States
+    //Functions
+
+
+    //Effects
+    //Render
+    return (
+        <Box>
+            <h4>Prix Acquisition sur l'année : {ldyStates.acquisitionPrice.toFixed(2)}</h4>
+            <AcquisitionPriceAssets assets={ldyStates.assets} />
+        </Box>
     );
 };
 
