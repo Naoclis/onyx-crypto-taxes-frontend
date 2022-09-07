@@ -108,7 +108,7 @@ const WalletValuer = (props: any) => {
                         {tabDisplayed === 0 && <SellOrdersTab orders={sellOrders} />}
                         {tabDisplayed === 1 && <WalletValorizationTab valuedStates={walletValor} />}
                         {tabDisplayed === 2 && <BuyOrdersTab orders={buyOrders} />}
-                    {tabDisplayed === 3 && <AcquisitionPriceTab ldyStates={ldyWalletStates} />}
+                        {tabDisplayed === 3 && <AcquisitionPriceTab ldyStates={ldyWalletStates} />}
                         {tabDisplayed === 4 && <TaxesTab taxes={taxes} ldyStates={ldyWalletStates} testingTaxes={testingTaxes} />}
                     </React.Fragment>
                 }

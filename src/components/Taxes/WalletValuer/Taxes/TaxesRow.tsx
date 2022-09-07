@@ -22,6 +22,7 @@ const styles = {
 /*********** [ COMPONENT ] ****************/
 const TaxesCell = (props: any) => {
     const { item, testing, property } = props;
+
     const diff = Math.abs(parseFloat(item[property]) - parseFloat(testing[property]));
     //Functions
 
@@ -29,13 +30,21 @@ const TaxesCell = (props: any) => {
         <TableCell sx={(diff < 7) ? styles.error : styles.ok}>{item[property].toFixed()} - ({diff.toFixed()})</TableCell>
     );
 };
+
+
+
 const TaxesRow = (props: any) => {
     const { taxes, testingTaxes } = props;
     //Variables
     const rows = (taxes.length > 0) ? taxes[0].taxes : [];
     const totalPnL = (rows.length > 0) ? rows.reduce((p: number, c: any) => (p + c.profitAndLoss), 0) : 0;
     
-    
+    const findRowInTesting = (item:any) => {
+        const exist = testingTaxes.filter((el: any) => el.day === item.day && el.hour === item.hour);
+        const row = (exist.length > 0) ? exist[0] : [];
+        if (row.length < 1) console.log(item);
+        return row;
+    }
 
     //Effects
     //Render
@@ -66,17 +75,22 @@ const TaxesRow = (props: any) => {
                         <TableCell>{item.num}</TableCell>
                         <TableCell>{item.day}</TableCell>
                         <TableCell>{item.hour}</TableCell>
-                        <TaxesCell item={item} testing={testingTaxes[index]} property="walletValue" />
-                        <TaxesCell item={item} testing={testingTaxes[index]} property="amount" />
-                        <TaxesCell item={item} testing={testingTaxes[index]} property="fee" />
-                        <TaxesCell item={item} testing={testingTaxes[index]} property="amountWithoutFee" />
+                        {['walletValue', 'amount', 'fee', 'amountWithoutFee'].map((keyValue: any, _index: number) => (
+                            <TaxesCell key={`${keyValue}`} item={item} testing={findRowInTesting(item)} property={keyValue} />
+                            )
+                        )}
                         <TableCell>0</TableCell>
-                        <TaxesCell item={item} testing={testingTaxes[index]} property="amountWithoutSoulte" />
-                        <TaxesCell item={item} testing={testingTaxes[index]} property="netAmount" />
-                        <TaxesCell item={item} testing={testingTaxes[index]} property="acquisitionPrice" />
-                        <TaxesCell item={item} testing={testingTaxes[index]} property="capitalFraction" />
-                        <TaxesCell item={item} testing={testingTaxes[index]} property="netAcquisitionPrice" />
-                        <TaxesCell item={item} testing={testingTaxes[index]} property="profitAndLoss" />
+                        {['amountWithoutSoulte', 'netAmount'].map((keyValue: any, _index: number) => (
+                            <TaxesCell key={`${keyValue}`} item={item} testing={findRowInTesting(item)} property={keyValue} />
+                        )
+                        )}
+                        <TableCell>{item.acquisitionPrice.toFixed()}</TableCell>
+                        <TableCell>{item.capitalFraction.toFixed()}</TableCell>
+                        <TableCell>{item.netAcquisitionPrice.toFixed()}</TableCell>
+                        {['profitAndLoss'].map((keyValue: any, _index: number) => (
+                            <TaxesCell key={`${keyValue}`} item={item} testing={findRowInTesting(item)} property={keyValue} />
+                        )
+                        )}
                     </TableRow>
                 )}
                 <TableRow>
