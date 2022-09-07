@@ -15,20 +15,27 @@ const AssetsWallet = (props: any) => {
 
     //States
     //Functions
-    const testValue = (item:any) => {
+    const isItemOKWithTesting = (item: any) => {
         const hasValue = testingView.filter((el: any) => el.asset.toUpperCase() === item.asset.toUpperCase());
         const qty = (hasValue.length > 0) ? hasValue[0].qty : 0;
         const diff = (qty - item.qty);
         const isOK = (Math.abs(diff) < 0.00001) ? 'OK' : 'KO';
-        
+        return isOK;
+    };
+
+    const testValue = (item: any) => {
+        const isOK = isItemOKWithTesting(item);
+        const hasValue = testingView.filter((el: any) => el.asset.toUpperCase() === item.asset.toUpperCase());
+        const qty = (hasValue.length > 0) ? hasValue[0].qty : 0;
+        const diff = (qty - item.qty);
         return (isOK === 'OK') ?
             <Box sx={{ color: 'secondary.main', fontWeight: 'bold' }}>
-                {item.qty.toFixed(5)} - {isOK}<br />
+                {item.qty.toFixed(5)}<br />
                 {qty.toFixed(5)}
             </Box>
             :
             <Box sx={{ color: 'primary.main', fontWeight: 'bold', backgroundColor: 'white' }}>
-                {item.qty.toFixed(5)} - {isOK}<br />
+                {item.qty.toFixed(5)}<br />
                 {item.qty.toFixed(5)} VS {qty.toFixed(5)}
                 <br />
                 {diff.toFixed(5)}
@@ -46,17 +53,19 @@ const AssetsWallet = (props: any) => {
             <Table sx={defaultStyles.table}>
                 <TableHead>
                     <TableRow>
-                        {view.map((item: any, index: number) =>
-                            <TableCell key={index}>{item.asset}</TableCell>
-                        )}
+                        <TableCell>Asset</TableCell>
+                        <TableCell>Qté</TableCell>
+                        <TableCell>Statut</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    <TableRow>
-                        {view.map((item: any, index: number) =>
-                            <TableCell key={index}>{testValue(item)}</TableCell>
-                        )}
-                    </TableRow>
+                    {view.map((item: any, index: number) =>
+                        <TableRow key={index}>
+                            <TableCell>{item.asset}</TableCell>
+                            <TableCell>{testValue(item)}</TableCell>
+                            <TableCell>{isItemOKWithTesting(item)}</TableCell>
+                        </TableRow>
+                    )}
                 </TableBody>
             </Table>
         </Box>
@@ -76,7 +85,7 @@ const AssetsView = (props: any) => {
     return (
         <Box>
             {views.map((item: any, index: number) =>
-                <AssetsWallet key={index} view={item.view} year={item.year} ethMined={item.ethMined} totalMinedEth={item.totalMinedEth} testingView={item.testingView}/>
+                <AssetsWallet key={index} view={item.view} year={item.year} ethMined={item.ethMined} totalMinedEth={item.totalMinedEth} testingView={item.testingView} />
             )}
         </Box>
     );

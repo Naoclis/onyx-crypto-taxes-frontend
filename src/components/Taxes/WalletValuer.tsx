@@ -7,7 +7,6 @@ import Loader from '../../components/UIElements/Loader';
 import SellOrdersTab from './WalletValuer/SellOrdersTab';
 import WalletValorizationTab from './WalletValuer/WalletValorizationTab';
 import BuyOrdersTab from './WalletValuer/BuyOrdersTab';
-import AcquisitionPriceTab from './WalletValuer/AcquisitionPriceTab';
 import TaxesTab from './WalletValuer/TaxesTab';
 //Api
 import ApiOperations from '../../shared/apiOperations';
@@ -26,8 +25,6 @@ const WalletValuer = (props: any) => {
     const [buyOrders, setBuyOrders] = useState([]);
     const [taxes, setTaxes] = useState([]);
     const [testingTaxes, setTestingTaxes] = useState([]);
-    const [ldyWalletStates, setLDYWalletStates] = useState([]);
-    const [acquisitionPrices, setAcquisitionPrices] = useState([]);
     const [inProgress, setInProgress] = useState<number>(-1);
     const [tabDisplayed, setTabDisplayed] = useState<number>(0);
     //Functions
@@ -35,14 +32,12 @@ const WalletValuer = (props: any) => {
         setInProgress(1);
         const res = await apiCaller.get('get/walletValor/sellOrders', 'taxesCalculator');
         if (res !== undefined) {
-            const { sellOrders, walletValor, buyOrders, ldyWalletStates, taxes, testingTaxes } = res;
+            const { sellOrders, walletValor, buyOrders, taxes, testingTaxes } = res;
             setSellOrders(sellOrders);
             setWalletValor(walletValor);
             setBuyOrders(buyOrders);
-            setLDYWalletStates(ldyWalletStates);
             setTaxes(taxes);
             setTestingTaxes(testingTaxes);
-            setAcquisitionPrices(ldyWalletStates);
             setInProgress(-1);
         }
     };
@@ -86,8 +81,7 @@ const WalletValuer = (props: any) => {
                     <Button variant="contained" onClick={() => updateTab(0)}>Cessions</Button>
                     <Button variant="contained" onClick={() => updateTab(1)}>Valor. Portefeuille Par Cession</Button>
                     <Button variant="contained" onClick={() => updateTab(2)}>Investissement Par Cession</Button>
-                    <Button variant="contained" onClick={() => updateTab(3)}>Prix Acquisition Par Cession</Button>
-                    <Button variant="contained" onClick={() => updateTab(4)}>Impôts</Button>
+                    <Button variant="contained" onClick={() => updateTab(3)}>Impôts</Button>
                 </Box>
 
                 <Box mb={2} mt={2} sx={{ '& > .MuiButtonBase-root': { marginRight: '1em' } }}>
@@ -108,8 +102,7 @@ const WalletValuer = (props: any) => {
                         {tabDisplayed === 0 && <SellOrdersTab orders={sellOrders} />}
                         {tabDisplayed === 1 && <WalletValorizationTab valuedStates={walletValor} />}
                         {tabDisplayed === 2 && <BuyOrdersTab orders={buyOrders} />}
-                        {tabDisplayed === 3 && <AcquisitionPriceTab ldyStates={ldyWalletStates} />}
-                        {tabDisplayed === 4 && <TaxesTab taxes={taxes} ldyStates={ldyWalletStates} testingTaxes={testingTaxes} />}
+                        {tabDisplayed === 3 && <TaxesTab taxes={taxes} testingTaxes={testingTaxes} />}
                     </React.Fragment>
                 }
             </Grid>
