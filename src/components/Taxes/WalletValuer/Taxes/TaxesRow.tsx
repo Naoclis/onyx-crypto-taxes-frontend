@@ -7,18 +7,35 @@ import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 /********** [ PROPERTIES ] ****************/
 //Style
 import { defaultStyles } from '../../../../assets/styles/theme';
-
+const styles = {
+    error: {
+        '&.MuiTableCell-root' :{
+            color: 'secondary.main', fontWeight: 'bold'
+        }
+    },
+    ok: {
+        '&.MuiTableCell-root': {
+            color: 'primary.main', fontWeight: 'bold', backgroundColor: 'white'
+        }
+    },
+};
 /*********** [ COMPONENT ] ****************/
-const TaxesRow = (props: any) => {
-    const { taxes } = props;
-
-    const rows = (taxes.length > 0) ? taxes[0].taxes : [];
-    const totalPnL = (rows.length > 0) ? rows.reduce((p: number, c: any) => (p + c.profitAndLoss), 0) : 0;
-    //Variables
-
-    //States
+const TaxesCell = (props: any) => {
+    const { item, testing, property } = props;
+    const diff = Math.abs(parseFloat(item[property]) - parseFloat(testing[property]));
     //Functions
 
+    return (
+        <TableCell sx={(diff < 7) ? styles.error : styles.ok}>{item[property].toFixed()} - ({diff.toFixed()})</TableCell>
+    );
+};
+const TaxesRow = (props: any) => {
+    const { taxes, testingTaxes } = props;
+    //Variables
+    const rows = (taxes.length > 0) ? taxes[0].taxes : [];
+    const totalPnL = (rows.length > 0) ? rows.reduce((p: number, c: any) => (p + c.profitAndLoss), 0) : 0;
+    
+    
 
     //Effects
     //Render
@@ -49,17 +66,17 @@ const TaxesRow = (props: any) => {
                         <TableCell>{item.num}</TableCell>
                         <TableCell>{item.day}</TableCell>
                         <TableCell>{item.hour}</TableCell>
-                        <TableCell>{item.walletValue.toFixed()}</TableCell>
-                        <TableCell>{item.amount.toFixed()}</TableCell>
-                        <TableCell>{item.fee.toFixed()}</TableCell>
-                        <TableCell>{item.amountWithoutFee.toFixed()}</TableCell>
+                        <TaxesCell item={item} testing={testingTaxes[index]} property="walletValue" />
+                        <TaxesCell item={item} testing={testingTaxes[index]} property="amount" />
+                        <TaxesCell item={item} testing={testingTaxes[index]} property="fee" />
+                        <TaxesCell item={item} testing={testingTaxes[index]} property="amountWithoutFee" />
                         <TableCell>0</TableCell>
-                        <TableCell>{item.amountWithoutSoulte.toFixed()}</TableCell>
-                        <TableCell>{item.netAmount.toFixed()}</TableCell>
-                        <TableCell>{item.acquisitionPrice.toFixed()}</TableCell>
-                        <TableCell>{item.capitalFraction.toFixed()}</TableCell>
-                        <TableCell>{item.netAcquisitionPrice.toFixed()}</TableCell>
-                        <TableCell>{item.profitAndLoss.toFixed(2)}</TableCell>
+                        <TaxesCell item={item} testing={testingTaxes[index]} property="amountWithoutSoulte" />
+                        <TaxesCell item={item} testing={testingTaxes[index]} property="netAmount" />
+                        <TaxesCell item={item} testing={testingTaxes[index]} property="acquisitionPrice" />
+                        <TaxesCell item={item} testing={testingTaxes[index]} property="capitalFraction" />
+                        <TaxesCell item={item} testing={testingTaxes[index]} property="netAcquisitionPrice" />
+                        <TaxesCell item={item} testing={testingTaxes[index]} property="profitAndLoss" />
                     </TableRow>
                 )}
                 <TableRow>

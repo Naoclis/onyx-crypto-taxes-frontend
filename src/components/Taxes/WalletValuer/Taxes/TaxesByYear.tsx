@@ -13,7 +13,7 @@ import LDYWallet from './LDYWallet';
 /*********** [ COMPONENT ] ****************/
 
 const TaxesByYear = (props: any) => {
-    const { taxes, ldyStates } = props;
+    const { taxes, testingTaxes, ldyStates } = props;
     const years = [2017, 2018, 2019, 2020, 2021, 2022];
 
     //Render
@@ -26,7 +26,7 @@ const TaxesByYear = (props: any) => {
                     <LDYWallet state={ldyStates.filter((el: any) => el.year === (year-1).toString())} />
                 </Box>
                 <Box mb={2}>
-                    <TaxesRow taxes={taxes.filter((el: any) => el.year === year.toString())} />
+                    <TaxesRow taxes={taxes.filter((el: any) => el.year === year.toString())} testingTaxes={testingTaxes.filter((el: any) => el.year === year.toString())}/>
                 </Box>
             </Box>)
             )}

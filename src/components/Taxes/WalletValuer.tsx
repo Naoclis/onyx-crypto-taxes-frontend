@@ -7,6 +7,7 @@ import Loader from '../../components/UIElements/Loader';
 import SellOrdersTab from './WalletValuer/SellOrdersTab';
 import WalletValorizationTab from './WalletValuer/WalletValorizationTab';
 import BuyOrdersTab from './WalletValuer/BuyOrdersTab';
+import AcquisitionPriceTab from './WalletValuer/AcquisitionPriceTab';
 import TaxesTab from './WalletValuer/TaxesTab';
 //Api
 import ApiOperations from '../../shared/apiOperations';
@@ -24,7 +25,9 @@ const WalletValuer = (props: any) => {
     const [walletValor, setWalletValor] = useState([]);
     const [buyOrders, setBuyOrders] = useState([]);
     const [taxes, setTaxes] = useState([]);
+    const [testingTaxes, setTestingTaxes] = useState([]);
     const [ldyWalletStates, setLDYWalletStates] = useState([]);
+    const [acquisitionPrices, setAcquisitionPrices] = useState([]);
     const [inProgress, setInProgress] = useState<number>(-1);
     const [tabDisplayed, setTabDisplayed] = useState<number>(0);
     //Functions
@@ -32,12 +35,14 @@ const WalletValuer = (props: any) => {
         setInProgress(1);
         const res = await apiCaller.get('get/walletValor/sellOrders', 'taxesCalculator');
         if (res !== undefined) {
-            const { sellOrders, walletValor, buyOrders, ldyWalletStates, taxes } = res;
+            const { sellOrders, walletValor, buyOrders, ldyWalletStates, taxes, testingTaxes } = res;
             setSellOrders(sellOrders);
             setWalletValor(walletValor);
             setBuyOrders(buyOrders);
             setLDYWalletStates(ldyWalletStates);
             setTaxes(taxes);
+            setTestingTaxes(testingTaxes);
+            setAcquisitionPrices(ldyWalletStates);
             setInProgress(-1);
         }
     };
@@ -64,12 +69,9 @@ const WalletValuer = (props: any) => {
         await callAPI('generate/walletValor/calculateTaxes');
     };
 
-    
-
     const updateTab = (index: number) => {
         setTabDisplayed(index);
     };
-
 
     //Effects
     useEffect(() => {
@@ -83,15 +85,16 @@ const WalletValuer = (props: any) => {
                 <Box mb={2} mt={2} sx={{ '& > .MuiButtonBase-root': { marginRight: '1em' } }}>
                     <Button variant="contained" onClick={() => updateTab(0)}>Cessions</Button>
                     <Button variant="contained" onClick={() => updateTab(1)}>Valor. Portefeuille Par Cession</Button>
-                    <Button variant="contained" onClick={() => updateTab(2)}>Prix Acquisition Par Cession</Button>
-                    <Button variant="contained" onClick={() => updateTab(3)}>Synthèse</Button>
+                    <Button variant="contained" onClick={() => updateTab(2)}>Investissement Par Cession</Button>
+                    <Button variant="contained" onClick={() => updateTab(3)}>Prix Acquisition Par Cession</Button>
+                    <Button variant="contained" onClick={() => updateTab(4)}>Impôts</Button>
                 </Box>
 
                 <Box mb={2} mt={2} sx={{ '& > .MuiButtonBase-root': { marginRight: '1em' } }}>
                     <Button variant="contained" onClick={getFIATSellOrders}>Mise à jour des tables de travail</Button>
                     <Button variant="contained" onClick={getPriceFiles}>Récupération des fichiers de prix</Button>
                     <Button variant="contained" onClick={calculateTaxes}>Calcul des impôts</Button>
-                    
+
                 </Box>
             </Grid>
             <Grid item xs={12}>
@@ -104,10 +107,11 @@ const WalletValuer = (props: any) => {
                     <React.Fragment>
                         {tabDisplayed === 0 && <SellOrdersTab orders={sellOrders} />}
                         {tabDisplayed === 1 && <WalletValorizationTab valuedStates={walletValor} />}
-                    {tabDisplayed === 2 && <BuyOrdersTab orders={buyOrders} />}
-                    {tabDisplayed === 3 && <TaxesTab taxes={taxes} ldyStates={ldyWalletStates}/>}
+                        {tabDisplayed === 2 && <BuyOrdersTab orders={buyOrders} />}
+                    {tabDisplayed === 3 && <AcquisitionPriceTab ldyStates={ldyWalletStates} />}
+                        {tabDisplayed === 4 && <TaxesTab taxes={taxes} ldyStates={ldyWalletStates} testingTaxes={testingTaxes} />}
                     </React.Fragment>
-                }                
+                }
             </Grid>
         </Grid>
     );
