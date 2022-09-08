@@ -62,8 +62,8 @@ const Menu = () => {
                 <Box sx={styles.grow} />
 
                 <Box>
-                    <MenuIcon title="Notes Projet" url="/help" icon={<HelpIcon />}/>
-                    <MenuIcon title="Debug" url="/debug" icon={<ImportantDevicesIcon />} />
+                    <MenuIcon title="Notes Projet" url="/help" icon={<HelpIcon color="primary"/>}  />
+                    <MenuIcon title="Debug" url="/debug" icon={<ImportantDevicesIcon color="primary" />}  />
                 </Box>
             </Toolbar>
         </AppBar>

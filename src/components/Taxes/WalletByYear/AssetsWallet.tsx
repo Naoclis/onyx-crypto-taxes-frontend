@@ -59,12 +59,19 @@ const AssetsWallet = (props: any) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {view.map((item: any, index: number) =>
-                        <TableRow key={index}>
-                            <TableCell>{item.asset}</TableCell>
-                            <TableCell>{testValue(item)}</TableCell>
-                            <TableCell>{isItemOKWithTesting(item)}</TableCell>
-                        </TableRow>
+                    {view.map((item: any, index: number) => {
+                        if (parseFloat(item.qty) !== 0) {
+                            return (<TableRow key={index}>
+                                <TableCell>{item.asset}</TableCell>
+                                <TableCell>{testValue(item)}</TableCell>
+                                <TableCell>{isItemOKWithTesting(item)}</TableCell>
+                            </TableRow>)
+                        }
+                        else {
+                            return (<React.Fragment />);
+                        }
+                            
+                        }
                     )}
                 </TableBody>
             </Table>
