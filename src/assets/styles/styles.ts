@@ -19,7 +19,7 @@ const styles = {
             }
         },
         'tr.odd td': {
-            backgroundColor: palette.primary.dark
+            backgroundColor: palette.secondary.dark
         },
         'tr.even td': {
             backgroundColor: palette.background.dark
@@ -32,6 +32,12 @@ const styles = {
             border: 1,
             padding: '4px',
             textAlign: 'center',
+        },
+        'td.short': {
+            width: '50px!important',
+            overflow: 'hidden',
+            display: 'inline-block',
+            whiteSpace: 'nowrap'
         },
     }
 };

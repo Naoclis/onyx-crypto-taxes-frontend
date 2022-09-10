@@ -13,7 +13,7 @@ const ExchangeFilenameDir = (props: any) => {
     const { nbLines, nbTransactions } = kpis;
     //States
     const [isRejectedShown, showRejected] = useState<boolean>(false);
-    const [checked, setChecked] = React.useState(false);
+    const [checked, setChecked] = useState(false);
 
 
     //Functions  
@@ -22,10 +22,10 @@ const ExchangeFilenameDir = (props: any) => {
     };
 
     const deduceStatus = () => {
-        const status = ((nbLines.rejected === 0) && 'OK pour insertion !')
-            || ((nbLines.rejected !== 0) && 'Rejets à contrôler !')
-            || ((nbTransactions.toInsert === 0) && 'Fichier déjà inseré !')
-            || 'Rien à dire';
+        const status = ((nbLines.rejected === 0) && (<Box sx={{ color: 'success.main' }}>OK pour insertion !</Box>))
+            || ((nbLines.rejected !== 0) && (<Box sx={{ color: 'warning.main' }}>Rejets à contrôler !</Box>))
+            || ((nbTransactions.toInsert === 0) && (<Box sx={{ color: 'info.main' }}>Fichier déjà inseré !</Box>))
+            || (<Box sx={{ color: 'error.main' }}>Rien à dire</Box>);
         return status
     };
 
@@ -43,19 +43,21 @@ const ExchangeFilenameDir = (props: any) => {
                 <TableCell className='rejected'>
                     {(nbLines.rejected !== 0) ?
                         <Button onClick={toogleRejected}>Afficher Lignes</Button> :
-                        <Box sx={{ color:'secondary.main' }}>Aucun Rejet !</Box>
+                        <Box sx={{ color: 'secondary.main' }}>Aucun Rejet !</Box>
                     }
                 </TableCell>
                 <TableCell>{nbLines.rejected}</TableCell>
                 <TableCell>{nbLines.keeped}</TableCell>
                 <TableCell>{nbTransactions.identified}</TableCell>
                 <TableCell>{nbTransactions.toInsert}</TableCell>
-                <TableCell>{deduceStatus()}</TableCell>
+                <TableCell className='rejected'>{deduceStatus()}</TableCell>
                 <TableCell><Switch checked={checked} onChange={updateTransactionFilesList} /></TableCell>
             </TableRow>
-            <TableRow>
-                <TableCell colSpan={9}>{isRejectedShown && <FileLoadedLines lines={rejectedLines} market={market} exchange={exchange} />}</TableCell>
-            </TableRow>
+            {isRejectedShown &&
+                <TableRow>
+                    <TableCell colSpan={9}><FileLoadedLines lines={rejectedLines} market={market} exchange={exchange} /></TableCell>
+                </TableRow>
+            }
 
         </React.Fragment>
     );

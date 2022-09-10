@@ -1,7 +1,7 @@
 /*********************************/
 /*********     STYLE    **********/
 /*********************************/
-import { grey, pink, blue, lightBlue, indigo, orange, amber, teal, cyan, purple, deepPurple } from '@mui/material/colors';
+import { amber, blue, blueGrey, cyan, deepPurple, grey, indigo, lightBlue, pink, purple, orange, teal } from '@mui/material/colors';
 
 const palette = {
     background: {
@@ -34,16 +34,17 @@ const palette = {
         light: purple[200],
         white: purple[50],
     },
+    amber: amber,
+    blue: blue,
+    blueGrey: blueGrey,
+    cyan: cyan,
+    deepPurple: deepPurple,
+    indigo: indigo,
+    lightBlue: lightBlue,
+    orange: orange,
     pink: pink,
     purple: purple,
-    deepPurple: deepPurple,    
-    indigo: indigo,
-    blue: blue,
-    lightBlue: lightBlue,
-    cyan: cyan,
-    teal: teal,
-    orange: orange,
-    amber: amber
+    teal: teal
 };
 
 export default palette;

@@ -9,8 +9,8 @@ import { Button, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/m
 import { defaultStyles } from '../../../assets/styles/theme';
 
 /*********** [ COMPONENT ] ****************/
-const FilesByExchange = (props:any) => {
-    const { files, loadFile } = props;
+const FilesByExchange = (props: any) => {
+    const { files, loadFile, rejectedFiles } = props;
 
     //Functions
 
@@ -28,9 +28,16 @@ const FilesByExchange = (props:any) => {
                 </TableRow>
             </TableHead>
             <TableBody>
-                {files.map((file: any, index: number) =>
+                {files.filter((el: any) => rejectedFiles.includes(el.name) === false).map((file: any, index: number) =>
                     <TableRow key={index}>
-                        <TableCell>{file.name}</TableCell>
+                        <TableCell>{
+                            file
+                                .name
+                                .split('_')
+                                .map((part: string, i: number) =>
+                                    (<p key={i}>{part}{part.match('.csv') === null && '_'}<br/></p>)
+                                )}
+                        </TableCell>
                         <TableCell>{file.account}</TableCell>
                         <TableCell>{file.subAccount}</TableCell>
                         <TableCell>{file.readablePeriod}</TableCell>

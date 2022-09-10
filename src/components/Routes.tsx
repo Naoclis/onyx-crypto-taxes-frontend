@@ -3,6 +3,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 /********* [ MY LIBRARIES ] ***************/
 //Components
+import LoadFilesHelp from '../views/Admin/LoadFiles/Help';
 import LoadFiles from '../views/Admin/LoadFiles/ListFiles';
 import ControlFiles from '../views/Admin/LoadFiles/ControlFiles';
 import ControlDatabase from '../views/Admin/LoadFiles/ControlDatabase';
@@ -27,7 +28,8 @@ const AppRoutes = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="*" element={<Navigate to="files/load" />} />
+                <Route path="*" element={<Navigate to="files/help" />} />
+                <Route path="/files/help" element={<LoadFilesHelp />} />
                 <Route path="/files/load" element={<LoadFiles />} />
                 <Route path="/files/control" element={<ControlFiles />} />
                 <Route path="/database/check" element={<ControlDatabase />} />

@@ -11,6 +11,7 @@ import Menu from '../../components/Menus/Menu';
 const LoadFiles = (props: any) => {
     const { selectedMenuItem } = props;
     const menuItems = [
+        { url: "/files/help", label: "Consignes de chargement des fichiers" },
         { url: "/files/load", label: "Chargement des fichiers" },
         { url: "/files/control", label: "Contrôle des fichiers" },
         { url: "/database/check", label: "Contrôle des stagings area" },

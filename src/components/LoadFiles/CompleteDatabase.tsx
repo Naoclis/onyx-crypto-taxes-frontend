@@ -28,9 +28,9 @@ const CompleteDatabase = () => {
 
     const emptyTables = async (mode: string) => {
         const res = await apiCaller.get(`emptyDB/${mode}`, 'debugger');
-        if (res !== undefined) {
-            console.log(res);
-        }
+        //if (res !== undefined) {
+        //    console.log(res);
+        //}
     };
     //Effects
 

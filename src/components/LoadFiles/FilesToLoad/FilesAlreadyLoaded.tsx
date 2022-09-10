@@ -16,9 +16,7 @@ const FilesAlreadyLoaded = (props: any) => {
         <Table sx={defaultStyles.table}>
             <TableHead>
                 <TableRow>
-                    <TableCell>Nom Fichier</TableCell>
                     <TableCell>Source</TableCell>
-                    <TableCell>Type</TableCell>
                     <TableCell>Période</TableCell>
                     <TableCell>Nb Lignes</TableCell>
                     <TableCell>Statut</TableCell>
@@ -27,16 +25,11 @@ const FilesAlreadyLoaded = (props: any) => {
             <TableBody>
                 {files.map((file: any, index: number) =>
                     <React.Fragment key={index}>
-                        <TableRow className={(index % 2 === 1) ? 'odd': 'even'}>
-                            <TableCell>{file.name}</TableCell>
-                            <TableCell>{file.source}</TableCell>
-                            <TableCell>{file.type}</TableCell>
+                        <TableRow className={(index % 2 === 1) ? 'odd': 'even'}>                            
+                            <TableCell>{file.parent.name}</TableCell>
                             <TableCell>{file.readablePeriod}</TableCell>
                             <TableCell>{file.nbLines}</TableCell>
                             <TableCell>{file.comment}</TableCell>
-                        </TableRow>
-                        <TableRow className={(index % 2 === 1) ? 'odd' : 'even'}>
-                            <TableCell colSpan={6}>Source : {file.parent.name}</TableCell>
                         </TableRow>
                     </React.Fragment>
                 )}

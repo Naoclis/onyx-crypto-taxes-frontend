@@ -14,6 +14,7 @@ import defaultStyles from './styles';
 
 let theme = createTheme({
     palette: {
+        mode: 'dark',
         primary: {
             light: palette.primary.light,
             main: palette.primary.main,
@@ -24,9 +25,6 @@ let theme = createTheme({
         background: {
             default: palette.background.dark,
         },
-        text: {
-            primary: palette.background.white,
-        }
     }
 });
 

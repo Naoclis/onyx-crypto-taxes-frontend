@@ -3,17 +3,17 @@ import React from 'react';
 /********* [ MY LIBRARIES ] ***************/
 //Components
 import LoadFiles from '../LoadFiles';
-import FilesLoaded from '../../../components/LoadFiles/FilesLoaded';
+import Help from '../../../components/LoadFiles/Help';
 /********** [ PROPERTIES ] ****************/
 
 /*********** [ COMPONENT ] ****************/
 const ControlFiles = () => {
-    const title = "Contrôle des fichiers";
+    const title = "Consignes de chargement des fichiers";
     //Render
     return (
         <LoadFiles selectedMenuItem={title}>
             <h1>{title}</h1>
-            <FilesLoaded />
+            <Help/>
         </LoadFiles>
     );
 };

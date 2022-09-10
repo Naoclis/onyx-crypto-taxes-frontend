@@ -64,5 +64,15 @@ const nexoHeader: Array<any> = [
     { label: 'Détails', index: 6 },
     { label: 'Cause du rejet', index: 10 },
 ];
+//"Txhash","UnixTimestamp","DateTime","From","To","Value","ContractAddress","TokenName","TokenSymbol"
+const coldWalletOtherHeader: Array<any> = [
+    { label: 'Date de Transaction', index: 2 },
+    { label: 'From', index: 3 },
+    { label: 'To', index: 4 },
+    { label: 'Value', index: 5 },
+    { label: 'TokenName', index: 7 },
+    { label: 'TokenSymbol', index: 8 },
+    { label: 'Cause du rejet', index: 9 },
+];
 
-export { years, months, futureHeader, spotHeader, binanceOldTransactionHeader, binanceTransactionHeader, nexoHeader };
+export { years, months, futureHeader, spotHeader, binanceOldTransactionHeader, binanceTransactionHeader, nexoHeader, coldWalletOtherHeader };
