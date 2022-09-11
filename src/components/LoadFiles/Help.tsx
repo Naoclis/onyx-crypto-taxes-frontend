@@ -1,10 +1,10 @@
 /********** [  LIBRARIES  ] ***************/
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Grid, Link, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Box, Grid, Link, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 /********* [ MY LIBRARIES ] ***************/
+import { hardWalletInfos } from '../../assets/configs/walletConfig';
 //Components
 import Loader from '../../components/UIElements/Loader';
-import FilesAlreadyLoaded from './FilesToLoad/FilesAlreadyLoaded';
 //Api
 import ApiOperations from '../../shared/apiOperations';
 /********** [ PROPERTIES ] ****************/
@@ -13,15 +13,24 @@ import { defaultStyles } from '../../assets/styles/theme';
 
 
 /*********** [ COMPONENT ] ****************/
+const ColdWalletExports = (props: any) => {
+    const { wallet } = props;
+
+    return (
+        <li>
+            {wallet.name} <i>(<Link href={`${wallet.urlRoot}address/${wallet.address}`} target="_blank">Voir</Link>)</i>
+            <ul>
+                <li><Link href={`${wallet.urlRoot}exportData?type=address&a=${wallet.address}`} target="_blank">Transactions</Link></li>
+                <li><Link href={`${wallet.urlRoot}exportData?type=internaltxns&a=${wallet.address}`} target="_blank">Internal</Link></li>
+                <li><Link href={`${wallet.urlRoot}exportData?type=addresstokentxns&a=${wallet.address}`} target="_blank">Others</Link></li>
+            </ul>
+        </li>
+    );
+};
+
 const FilesLoaded = () => {
     //Variables
     const apiCaller = new ApiOperations();
-    const wallets = [
-        { type: 'eth', name: 'HardWalletTokenSets', address: '0x2b7cc0cC5158f8bE331b250c2F70A73798a3d0EC', urlRoot: 'https://etherscan.io/', lastLook: '09/09/2022' },
-        { type: 'eth', name: 'HardWalletMain', address: '0xAFEFF14609AbA798B293f0fB4cB20d370069F797', urlRoot: 'https://etherscan.io/', lastLook: '-1' },
-        { type: 'eth', name: 'HardWalletSecond', address: '0xE2e66F73afe61CAE408AE0fCEE0802dFF79a30ec', urlRoot: 'https://etherscan.io/', lastLook: '-1' },
-        { type: 'bsc', name: 'HardWalletPancakeSwap', address: '0xE2e66F73afe61CAE408AE0fCEE0802dFF79a30ec', urlRoot: 'https://bscscan.com/', lastLook: '-1' },
-    ];
 
     //States
     const [loadedFiles, setLoadedFiles] = useState([]);
@@ -38,10 +47,10 @@ const FilesLoaded = () => {
     };
 
     const needRefresh = (walletName: string, stillActive: boolean) => {
-        const test = wallets.filter((el: any) => el.name === walletName);
+        const hasHardwallet = hardWalletInfos.filter((el: any) => el.name === walletName);
         let lastLook = '-1';
-        if (test.length > 0) {
-            lastLook = test[0].lastLook;
+        if (hasHardwallet.length > 0) {
+            lastLook = hasHardwallet[0].lastLook;
         }
         let message = `Rafraichissement inutile`;
         if (stillActive && lastLook === '-1') {
@@ -100,16 +109,8 @@ const FilesLoaded = () => {
                 <Box p={2}>
                     <h4>Cold Wallets</h4>
                     <ul>
-                        {wallets.map((wallet: any, index: number) => (
-                            <li key={index}>
-                                {wallet.name} =&gt;
-                                &nbsp;
-                                <Link href={`${wallet.urlRoot}exportData?type=address&a=${wallet.address}`} target="_blank">Transactions</Link>
-                                &nbsp;-&nbsp;
-                                <Link href={`${wallet.urlRoot}exportData?type=internaltxns&a=${wallet.address}`} target="_blank">Internal</Link>
-                                &nbsp;-&nbsp;
-                                <Link href={`${wallet.urlRoot}exportData?type=addresstokentxns&a=${wallet.address}`} target="_blank">Others</Link>
-                            </li>
+                        {hardWalletInfos.filter((wallet:any)=>!wallet.inactive).map((wallet: any, index: number) => (
+                            <ColdWalletExports key={index} wallet={wallet}/>
                         ))}
                     </ul>
 

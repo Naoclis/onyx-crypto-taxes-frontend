@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Alert, Box, Button, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 /********* [ MY LIBRARIES ] ***************/
 //Components
-import { futureHeader, spotHeader, binanceOldTransactionHeader, binanceTransactionHeader, nexoHeader, coldWalletOtherHeader} from '../../../assets/variables';
+import { futureHeader, spotHeader, binanceOldTransactionHeader, binanceTransactionHeader, nexoHeader, coldWalletOtherHeader} from '../../../assets/configs/headerConfig';
 /********** [ PROPERTIES ] ****************/
 //Style
 import { defaultStyles, palette } from '../../../assets/styles/theme';
