@@ -3,18 +3,18 @@ import React from 'react';
 /********* [ MY LIBRARIES ] ***************/
 //Components
 import Taxes from '../Taxes';
-import OrderComparison from '../../../components/Taxes/OrderComparison';
+import OldAppTesting from '../../../components/Taxes/OldAppTesting';
 /********** [ PROPERTIES ] ****************/
 
 /*********** [ COMPONENT ] ****************/
-const OrderComparisonView = () => {
-    const title = "Comparaison Ordres Portefeuille";
+const OldAppTestingView = () => {
+    const title = "Recette (ancienne app)";
     //Render
     return (
         <Taxes selectedMenuItem={title}>
-            <OrderComparison />
+            <OldAppTesting />
         </Taxes>
     );
 };
 
-export default OrderComparisonView;
+export default OldAppTestingView;

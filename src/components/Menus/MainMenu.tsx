@@ -55,8 +55,8 @@ const Menu = () => {
                 
                 <Box sx={styles.links}>
                     <Button variant="outlined" color="primary" component={NavLink} to="/files/load">Gestion Fichiers Sources</Button>
-                    <Button variant="outlined" color="primary" component={NavLink} to="/taxes/init">Calcul Impôts</Button>
-                    <Button variant="outlined" color="primary" component={NavLink} to="/taxes/manage">Gestion Impôts</Button>
+                    <Button variant="outlined" color="primary" component={NavLink} to="/taxes/calculate">Calcul Impôts</Button>
+                    <Button variant="outlined" color="primary" component={NavLink} to="/taxes/manage/sells">Gestion Impôts</Button>
                 </Box>
 
                 <Box sx={styles.grow} />

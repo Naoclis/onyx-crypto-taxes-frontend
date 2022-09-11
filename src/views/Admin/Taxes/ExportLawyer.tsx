@@ -3,18 +3,18 @@ import React from 'react';
 /********* [ MY LIBRARIES ] ***************/
 //Components
 import Taxes from '../Taxes';
-import InitWallet from '../../../components/Taxes/InitWallet';
+import ExportLawyer from '../../../components/Taxes/ExportLawyer';
 /********** [ PROPERTIES ] ****************/
 
 /*********** [ COMPONENT ] ****************/
-const InitWalletView = () => {
-    const title = "CrÃ©ation du portefeuille";
+const ExportLawyerView = () => {
+    const title = "Calcul des impôts";
     //Render
     return (
         <Taxes selectedMenuItem={title}>
-            <InitWallet />
+            <ExportLawyer />
         </Taxes>
     );
 };
 
-export default InitWalletView;
+export default ExportLawyerView;

@@ -1,17 +1,16 @@
 /********** [  LIBRARIES  ] ***************/
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Grid, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Box, Button } from '@mui/material';
 /********* [ MY LIBRARIES ] ***************/
 //Components
-import Loader from '../../components/UIElements/Loader';
-import MyComboBox from '../../components/UIElements/MyComboBox';
-import OCAnalysisRows from './OrderComparison/OCAnalysisRows';
+import Loader from '../../../components/UIElements/Loader';
+import MyComboBox from '../../../components/UIElements/MyComboBox';
+import OCAnalysisRows from './OCAnalysisRows';
 //Api
-import ApiOperations from '../../shared/apiOperations';
+import ApiOperations from '../../../shared/apiOperations';
 
 /********** [ PROPERTIES ] ****************/
 //Style
-import { defaultStyles } from '../../assets/styles/theme';
 
 /*********** [ COMPONENT ] ****************/
 
@@ -28,23 +27,16 @@ const TimestampResults = (props: any) => {
                 :
                 <h3>{`Test ${type} OK pour ${tableName}`}</h3>
             }
-
         </Box>
     )
 };
 
 const TestResults = (props: any) => {
     const { tableName, results } = props;
-    const { rows, missing, different } = results;
+    const { missing, different } = results;
     return (
         <Box>
             <h1>Résultats du test</h1>
-            {/*<ul>*/}
-            {/*    <li>Lignes manquantes dans {tableName} : {results.missing.length}</li>*/}
-            {/*    <li>Lignes différentes dans {tableName} : {results.different.length}</li>*/}
-            {/*</ul>*/}
-            {/*<Rows title={`Lignes manquantes (${tableName})`} rows={results.missing} />*/}
-            {/*<Rows title={`Lignes différentes (${tableName})`} rows={results.different} />*/}
             <TimestampResults type="Lignes manquantes" results={missing} tableName={tableName} />
             <TimestampResults type="Lignes différentes" results={different} tableName={tableName} />
         </Box>
@@ -126,28 +118,39 @@ const OrderComparison = () => {
 
     //Render
     return (
-        <Grid container spacing={4}>
-            <Grid item xs={12}>
-                {inProgress === 1 &&
-                    <Box mb={2}>
-                        <Loader message="Action en cours" />
-                    </Box>
-                }
-                {inProgress !== 1 &&
-                    <Box>
+        <Box>
+            <h2>Comparaison des lignes entre le modèle "assetsEvolution" et l'ancienne base de donnée</h2>
+            <h4>En théorie, il faut retrouver les mêmes lignes jusqu'en 2021, au détail du mining près</h4>
+            Pour aider à la vérification, il faut sélectionner un asset et une année.<br />
+            L'application va alors retourner les lignes "non identiques" qu'elle trouve dans assetsEvolution et pas dans la table 'wholeOrders' (qui contient ma version Excel des données) et vice-versa.<br />
+            Normalement, je dois retrouver les mêmes lignes. S'il y a des différences, elles doivent être dûes soit au minage, soit à une aggrégation non faite dans la table d'origine. <br /> Si ce n'est pas le cas, alors j'ai un "trou" à expliquer pour comprendre pourquoi la nouvelle version a des lignes soit en plus, soit en moins, soit avec des valeurs différentes.
+            <br />
+
+
+            {inProgress === 1 &&
+                <Box mb={2}>
+                    <Loader message="Action en cours" />
+                </Box>
+            }
+            {inProgress !== 1 &&
+                <Box mt={2}>
+
+                    <Box display="flex" alignItems="center">
                         <MyComboBox items={assetsList} label="Choix de l'asset" id="selectAsset" onChange={(e: any) => selectAsset(e, "asset")} init={testParams.asset} />
                         <MyComboBox items={yearsList} label="Choix de l'année" id="selectYear" onChange={(e: any) => selectAsset(e, "year")} init={testParams.year} />
                         <Button variant="contained" onClick={launchTest}>Lancer Test</Button>
-                    <Box>
-                        les lignes "manquantes" sont les lignes présentes dans une table et pas dans l'autre, pour un timestamp donné.<br/>
-                        Les lignes "en écart" sont des lignes pour lesquelles, pour un même timestamp, on ne trouve pas la même quantité dans assetsEvolution et wholeOrders.
                     </Box>
-                        <TestResults tableName="assetsEvolution" results={testResults.test} />
-                        <TestResults tableName="wholeOrders" results={testResults.origin} />
+                <Box>
+                    <ul>
+                        <li>Les lignes "manquantes" sont les lignes présentes dans une table et pas dans l'autre, pour un timestamp donné.</li>
+                        <li>Les lignes "en écart" sont des lignes pour lesquelles, pour un même timestamp, on ne trouve pas la même quantité dans assetsEvolution et wholeOrders.</li>
+                        </ul>                        
                     </Box>
-                }
-            </Grid>
-        </Grid>
+                    <TestResults tableName="assetsEvolution" results={testResults.test} />
+                    <TestResults tableName="wholeOrders" results={testResults.origin} />
+                </Box>
+            }
+        </Box>
     );
 };
 

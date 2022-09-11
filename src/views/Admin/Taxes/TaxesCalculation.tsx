@@ -3,18 +3,18 @@ import React from 'react';
 /********* [ MY LIBRARIES ] ***************/
 //Components
 import Taxes from '../Taxes';
-import WalletByYear from '../../../components/Taxes/WalletByYear';
+import TaxesCalculation from '../../../components/Taxes/TaxesCalculation';
 /********** [ PROPERTIES ] ****************/
 
 /*********** [ COMPONENT ] ****************/
-const WalletByYearView = () => {
-    const title = "Vision annuelle portefeuille";
+const TaxesCalculationView = () => {
+    const title = "Calcul des impôts";
     //Render
     return (
         <Taxes selectedMenuItem={title}>
-            <WalletByYear />
+            <TaxesCalculation />
         </Taxes>
     );
 };
 
-export default WalletByYearView;
+export default TaxesCalculationView;

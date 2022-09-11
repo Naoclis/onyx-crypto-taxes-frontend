@@ -9,12 +9,14 @@ import ControlFiles from '../views/Admin/LoadFiles/ControlFiles';
 import ControlDatabase from '../views/Admin/LoadFiles/ControlDatabase';
 import CompleteDatabase from '../views/Admin/LoadFiles/CompleteDatabase';
 
-import InitWallet from '../views/Admin/Taxes/InitWallet';
-import WalletByYear from '../views/Admin/Taxes/WalletByYear';
-import OrderComparison from '../views/Admin/Taxes/OrderComparison';
-import WalletValuer from '../views/Admin/Taxes/WalletValuer';
+import TaxesCalculation from '../views/Admin/Taxes/TaxesCalculation';
+import OldAppTesting from '../views/Admin/Taxes/OldAppTesting';
+import ExportLawyer from '../views/Admin/Taxes/ExportLawyer';
 
-import Dashboard from '../views/Admin/TaxesDashboard/Dashboard';
+import SellOrders from '../views/Admin/TaxesDashboard/SellOrders';
+import Valorizations from '../views/Admin/TaxesDashboard/Valorizations';
+import Invests from '../views/Admin/TaxesDashboard/Invests';
+import Taxes from '../views/Admin/TaxesDashboard/Taxes';
 
 import Help from '../views/Admin/Help';
 
@@ -35,12 +37,14 @@ const AppRoutes = () => {
                 <Route path="/database/check" element={<ControlDatabase />} />
                 <Route path="/database/complete" element={<CompleteDatabase />} />
 
-                <Route path="/taxes/init" element={<InitWallet />} />
-                <Route path="/taxes/prepare/wallet/stateByYear" element={<WalletByYear />} />
-                <Route path="/taxes/check/wallet/compareStateByYear" element={<OrderComparison />} />
-                <Route path="/taxes/evaluate/wallet" element={<WalletValuer />} />
+                <Route path="/taxes/calculate" element={<TaxesCalculation />} />
+                <Route path="/taxes/check" element={<OldAppTesting />} />
+                <Route path="/taxes/export/uzan" element={<ExportLawyer />} />
 
-                <Route path="/taxes/manage" element={<Dashboard />} />
+                <Route path="/taxes/manage/sells" element={<SellOrders />} />
+                <Route path="/taxes/manage/valorizations" element={<Valorizations />} />
+                <Route path="/taxes/manage/invests" element={<Invests />} />
+                <Route path="/taxes/manage/taxes" element={<Taxes />} />
 
                 <Route path="/help" element={<Help />} />
                 <Route path="/debug" element={<Debug />} />
