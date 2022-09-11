@@ -3,16 +3,16 @@ import React from 'react';
 /********* [ MY LIBRARIES ] ***************/
 //Components
 import TaxesDashboard from '../TaxesDashboard';
-import Dashboard from '../../../components/TaxesDashboard/Dashboard';
+import Valorizations from '../../../components/TaxesDashboard/Valorizations';
 /********** [ PROPERTIES ] ****************/
 
 /*********** [ COMPONENT ] ****************/
 const DashboardView = () => {
-    const title = "Rapport Impôts";
+    const title = "Valorisations Portefeuille";
     //Render
     return (
         <TaxesDashboard selectedMenuItem={title}>
-            <Dashboard />
+            <Valorizations />
         </TaxesDashboard>
     );
 };

@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 
 /********** [ PROPERTIES ] ****************/
 //Style
-import { defaultStyles } from '../../../../assets/styles/theme';
+import { defaultStyles } from '../../../assets/styles/theme';
 
 /*********** [ COMPONENT ] ****************/
 const BuyOrdersSummedRows = (props: any) => {

@@ -28,7 +28,7 @@ const ColdWalletExports = (props: any) => {
     );
 };
 
-const FilesLoaded = () => {
+const Help = () => {
     //Variables
     const apiCaller = new ApiOperations();
 
@@ -168,4 +168,4 @@ const FilesLoaded = () => {
     );
 };
 
-export default FilesLoaded;
+export default Help;

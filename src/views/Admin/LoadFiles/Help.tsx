@@ -7,15 +7,15 @@ import Help from '../../../components/LoadFiles/Help';
 /********** [ PROPERTIES ] ****************/
 
 /*********** [ COMPONENT ] ****************/
-const ControlFiles = () => {
+const HelpView = () => {
     const title = "Consignes de chargement des fichiers";
     //Render
     return (
         <LoadFiles selectedMenuItem={title}>
             <h1>{title}</h1>
-            <Help/>
+            <Help />
         </LoadFiles>
     );
 };
 
-export default ControlFiles;
+export default HelpView;

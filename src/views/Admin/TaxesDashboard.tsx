@@ -11,7 +11,10 @@ import Menu from '../../components/Menus/Menu';
 const TaxesDashboard = (props: any) => {
     const { selectedMenuItem } = props;
     const menuItems = [
-        { url: "/taxes/manage", label: "Vision Impôts" },
+        { url: "/taxes/manage/sells", label: "Cessions" },
+        { url: "/taxes/manage/valorizations", label: "Valorisations Portefeuille" },
+        { url: "/taxes/manage/invests", label: "Investissements" },
+        { url: "/taxes/manage/taxes", label: "Impôts" },
     ];
     //Render
     return (

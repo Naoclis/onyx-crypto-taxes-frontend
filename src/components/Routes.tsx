@@ -9,6 +9,7 @@ import ControlFiles from '../views/Admin/LoadFiles/ControlFiles';
 import ControlDatabase from '../views/Admin/LoadFiles/ControlDatabase';
 import CompleteDatabase from '../views/Admin/LoadFiles/CompleteDatabase';
 
+import TaxesCalculationHelp from '../views/Admin/Taxes/Help';
 import TaxesCalculation from '../views/Admin/Taxes/TaxesCalculation';
 import OldAppTesting from '../views/Admin/Taxes/OldAppTesting';
 import ExportLawyer from '../views/Admin/Taxes/ExportLawyer';
@@ -37,9 +38,11 @@ const AppRoutes = () => {
                 <Route path="/database/check" element={<ControlDatabase />} />
                 <Route path="/database/complete" element={<CompleteDatabase />} />
 
+                <Route path="/taxes/help" element={<TaxesCalculationHelp />} />
                 <Route path="/taxes/calculate" element={<TaxesCalculation />} />
                 <Route path="/taxes/check" element={<OldAppTesting />} />
                 <Route path="/taxes/export/uzan" element={<ExportLawyer />} />
+
 
                 <Route path="/taxes/manage/sells" element={<SellOrders />} />
                 <Route path="/taxes/manage/valorizations" element={<Valorizations />} />

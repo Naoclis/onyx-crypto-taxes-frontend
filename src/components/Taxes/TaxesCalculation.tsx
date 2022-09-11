@@ -19,11 +19,12 @@ const TaxesCalculation = () => {
     const [inProgress, setInProgress] = useState<number>(-1);
 
     //Functions
+    const init = async () => {
+        await callAPI('get/walletValor/missingPrices');
+    }
+
     const updateAssetsEvolution = async () => {
         await callAPI('generate/assetsEvolution/all');
-    };
-
-    const updateFDYStates = async () => {
         await callAPI('generate/assetsEvolution/byYear');
     };
 
@@ -47,31 +48,17 @@ const TaxesCalculation = () => {
             setInProgress(-1);
         }
     };
-    
+
 
     //Effects
-    //useEffect(() => {
-    //    init();
-    //}, []);
+    useEffect(() => {
+        init();
+    }, []);
 
     //Render
     return (
         <Grid container spacing={4}>
             <Grid item xs={12}>
-                <h1>Calcul des impôts sur les plus-values</h1>
-                <h3>Règles fiscales utilisées : celles de 2019</h3>
-                <h4>Date de dernière mise à jour de ce guide : 09/09/2022</h4>
-                En 2022, pour les cryptos, il y a pas mal d'hypothèses à prendre pour faire sa déclaration au FISC français.<br />
-                On va toujours aller au plus simple en partant du principe fondamental : seule la conversion en <b>monnaie FIAT</b> est imposable.<br />
-                Les grands principes :
-                <ul>
-                    <li>Le FISC se base sur un principe de portefeuille "unique", à savoir que tous les contenus de chaque wallet est considéré comme faisant parti d'un grand tout unique</li>
-                    <li>Il y a 2 grands types de mouvements : les mouvements crypto - crypto, et les mouvements crypto - fiat. Les mouvements entre crypto ne créént pas d'imposition, seuls les mouvements FIAT le font. Néanmoins, comme ils augmentent/diminuent le volume présent dans le portefeuille "unique", il faut les suivre.</li>
-                    <li>La déclaration se fait sur une année calendaire, du 01/01 au 31/12.</li>
-                    <li>Il faut avoir le statut de la dernière cession du portefeuille au début de l'année : 01/01/20XX, à 00:00:00, car on utilise ces éléments pour le calcul de l'année suivante</li>
-                </ul>
-            </Grid>
-            <Grid item xs={6}>
                 <h3>Procédure de calcul des plus-values</h3>
                 <ol>
                     <li>
@@ -104,21 +91,55 @@ const TaxesCalculation = () => {
                     </li>
                 </ol>
             </Grid>
-            <Grid item xs={6}>
-                <h3>Procédure de calcul des plus-values</h3>
-
-                {inProgress === 1 &&
+            {inProgress === 1 &&
+                <Grid item xs={12}>
                     <Loader message="Action en cours" />
-                }
-                <Box mt={2} display="flex" flexDirection="column" sx={{ '& .MuiButtonBase-root': { width: '100%', margin: '0.5em 0'} }} >
-                    <Button variant="contained" onClick={updateAssetsEvolution}>Rafraîchir Suivi Evolution Assets</Button>
-                    <Button variant="contained" onClick={updateFDYStates}>Rafraîchir Etats Portefeuille au 01 janvier</Button>
-                    <Button variant="contained" onClick={getFIATSellOrders}>Rafraîchir Tables de travail</Button>
-                    <Button variant="contained" onClick={getPriceFiles}>Récupération des fichiers de prix</Button>
-                    <Button variant="contained" onClick={calculateTaxes}>Calcul des impôts</Button>
-                </Box>
-            </Grid>
-            
+                </Grid>
+            }
+            {inProgress !== 1 &&
+                <React.Fragment>
+                    <Grid item xs={3}>
+                        <h3>Mise à jour du portefeuille unique</h3>
+                        <ul>
+                            <li>Table d'évolution des volumes d'assets</li>
+                            <li>Table d'évolution des volumes d'assets au 01/01</li>
+                        </ul>
+                        <Box mt={2} display="flex" flexDirection="column" sx={{ '& .MuiButtonBase-root': { width: '100%', margin: '0.5em 0' } }} >
+                            <Button variant="contained" onClick={updateAssetsEvolution}>Rafraîchir Suivi Evolution Assets</Button>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <h3>Mise à jour des tables de travail</h3>
+                        <ul>
+                            <li>Table des ordres de ventes FIAT</li>
+                            <li>Table de l'état du portefeuille à chaque ordre de vente</li>
+                            <li>Tables des acquisitions à chaque ordre de vente (pour calcul prix acquisition)</li>
+                        </ul>
+                        <Box mt={2} display="flex" flexDirection="column" sx={{ '& .MuiButtonBase-root': { width: '100%', margin: '0.5em 0' } }} >
+                            <Button variant="contained" onClick={getFIATSellOrders}>Rafraîchir Tables de travail</Button>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <h3>Récupération des fichiers de prix</h3>
+                        <Box mt={2} display="flex" flexDirection="column" sx={{ '& .MuiButtonBase-root': { width: '100%', margin: '0.5em 0' } }} >
+                            <Button variant="contained" onClick={getPriceFiles}>Récupération des fichiers de prix</Button>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <h3>Calcul final des impôts</h3>
+                        <ul>
+                            <li>Table de valorisation du portefeuille</li>
+                            <li>Table d'aggrégat qui contient, pour chaque ordre de vente, valorisation du portefeuille et prix d'acquistion</li>
+                            <li>Tables de calcul des impôts</li>
+                        </ul>
+                        <Box mt={2} display="flex" flexDirection="column" sx={{ '& .MuiButtonBase-root': { width: '100%', margin: '0.5em 0' } }} >
+                            <Button variant="contained" onClick={calculateTaxes}>Calcul des impôts</Button>
+                        </Box>
+                    </Grid>
+                </React.Fragment>
+            }
+
+
         </Grid>
     );
 };

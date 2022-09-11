@@ -3,18 +3,19 @@ import React from 'react';
 /********* [ MY LIBRARIES ] ***************/
 //Components
 import Taxes from '../Taxes';
-import WalletValuer from '../../../components/Taxes/WalletValuer';
+import Help from '../../../components/Taxes/Help';
 /********** [ PROPERTIES ] ****************/
 
 /*********** [ COMPONENT ] ****************/
-const WalletValuerView = () => {
-    const title = "Valorisation du portefeuille";
+const HelpView = () => {
+    const title = "Consignes";
     //Render
     return (
         <Taxes selectedMenuItem={title}>
-            <WalletValuer />
+            <h1>{title}</h1>
+            <Help />
         </Taxes>
     );
 };
 
-export default WalletValuerView;
+export default HelpView;
