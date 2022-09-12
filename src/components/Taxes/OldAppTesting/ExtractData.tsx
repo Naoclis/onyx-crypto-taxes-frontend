@@ -1,5 +1,5 @@
 /********** [  LIBRARIES  ] ***************/
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Box, Button, Grid, TextField } from '@mui/material';
 /********* [ MY LIBRARIES ] ***************/
 //Components
@@ -17,7 +17,6 @@ const ExtractData = () => {
     const apiCaller = new ApiOperations();
     //States
     const [inProgress, setInProgress] = useState<number>(-1);
-
     const [date, setDate] = useState('2020-11-07 00:20:01');
     const [rows, setRows] = useState([]);
     //Functions
@@ -61,9 +60,6 @@ const ExtractData = () => {
             {inProgress !== 1 &&
                 <Debugger rows={rows} />
             }
-
-
-
 
         </Grid>
     );
