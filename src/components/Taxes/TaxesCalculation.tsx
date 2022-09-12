@@ -16,7 +16,7 @@ const styles = {
     actionBox: {
         borderRadius: '8px',
         border: `1px solid ${palette.primary.main}`,
-        
+
         padding: '0.2em 0.5em',
         backgroundColor: `rgba(${hexToRgb(palette.blue[700]).replace('rgb(', '').replace(')', '')}, .2)`,
     }
@@ -54,13 +54,17 @@ const TaxesCalculation = () => {
         setInProgress(-1);
     }
 
-    const calculateForAllYears = async () => {
+    const calculateAllForAllYears = async () => {
         for (let year = 2017; year < 2023; year++) {
-            await callAPI(`generate/assetsEvolution/all/${year.toString()}`);
-            await callAPI(`generate/assetsEvolution/byYear/${year.toString()}`);
-            await callAPI(`generate/walletValor/sellOrders/${year}`);
-            await callAPI(`generate/walletValor/calculateTaxes/${year}`);
+            await calculateAllForYear(year.toString());
         }
+    };
+
+    const calculateAllForYear = async (year: string) => {
+        await callAPI(`generate/assetsEvolution/all/${year}`);
+        await callAPI(`generate/assetsEvolution/byYear/${year}`);
+        await callAPI(`generate/walletValor/sellOrders/${year}`);
+        await callAPI(`generate/walletValor/calculateTaxes/${year}`);
     };
 
     const updateAssetsEvolution = async () => {
@@ -140,10 +144,15 @@ const TaxesCalculation = () => {
                     <Box mr={2}>Précisez l'année sur laquelle lancer les calculs :</Box>
                     <TextField label="Année de calcul" variant="outlined" value={year} onChange={updateYear} />
                     <Box ml={2}>
-                        OU&nbsp;&nbsp;<Button variant="contained" onClick={calculateForAllYears}>TOUT RECALCULER</Button>
+                        <Button variant="contained" onClick={() => calculateAllForYear(year)}>Calculer TOUT pour l'année </Button>
+                    </Box>
+                    
+                    <Box ml={2} display="flex" alignItems="center">
+                        <Box mr={2}>OU</Box>
+                        <Button variant="contained" onClick={calculateAllForAllYears}>TOUT Calculer pour TOUTES les années</Button>
                     </Box>
                 </Box>
-                
+
             </Grid>
             {inProgress === 1 &&
                 <Grid item xs={12}>
