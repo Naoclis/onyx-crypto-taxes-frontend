@@ -47,7 +47,7 @@ const TaxesCalculation = () => {
     //Functions
     const init = async () => {
         setInProgress(1);
-        const res = await apiCaller.get('get/walletValor/missingPrices', 'taxesCalculator');
+        const res = await apiCaller.get(`generate/walletValor/missingPrices/${year}`, 'taxesCalculator');
         if (res !== undefined) {
             setMissingFiles(res.missingFiles);
         }
@@ -55,6 +55,10 @@ const TaxesCalculation = () => {
     }
 
     const updateAssetsEvolution = async () => {
+        //for (let year = 2017; year < 2023; year++) {
+        //    await callAPI(`generate/assetsEvolution/all/${year.toString()}`);
+        //    await callAPI(`generate/assetsEvolution/byYear/${year.toString()}`);
+        //}
         await callAPI(`generate/assetsEvolution/all/${year}`);
         await callAPI(`generate/assetsEvolution/byYear/${year}`);
     };
