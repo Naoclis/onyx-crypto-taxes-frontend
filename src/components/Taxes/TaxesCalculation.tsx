@@ -54,11 +54,16 @@ const TaxesCalculation = () => {
         setInProgress(-1);
     }
 
+    const calculateForAllYears = async () => {
+        for (let year = 2017; year < 2023; year++) {
+            await callAPI(`generate/assetsEvolution/all/${year.toString()}`);
+            await callAPI(`generate/assetsEvolution/byYear/${year.toString()}`);
+            await callAPI(`generate/walletValor/sellOrders/${year}`);
+            await callAPI(`generate/walletValor/calculateTaxes/${year}`);
+        }
+    };
+
     const updateAssetsEvolution = async () => {
-        //for (let year = 2017; year < 2023; year++) {
-        //    await callAPI(`generate/assetsEvolution/all/${year.toString()}`);
-        //    await callAPI(`generate/assetsEvolution/byYear/${year.toString()}`);
-        //}
         await callAPI(`generate/assetsEvolution/all/${year}`);
         await callAPI(`generate/assetsEvolution/byYear/${year}`);
     };
@@ -134,7 +139,11 @@ const TaxesCalculation = () => {
                 <Box mt={2} mb={2} display="flex" alignItems="center">
                     <Box mr={2}>Précisez l'année sur laquelle lancer les calculs :</Box>
                     <TextField label="Année de calcul" variant="outlined" value={year} onChange={updateYear} />
+                    <Box ml={2}>
+                        OU&nbsp;&nbsp;<Button variant="contained" onClick={calculateForAllYears}>TOUT RECALCULER</Button>
+                    </Box>
                 </Box>
+                
             </Grid>
             {inProgress === 1 &&
                 <Grid item xs={12}>
