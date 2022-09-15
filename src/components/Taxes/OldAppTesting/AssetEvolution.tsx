@@ -29,8 +29,7 @@ const AssetEvolutionRow = (props: any) => {
     );
 }
 
-const AssetEvolution = (props: any) => {
-    const { wallet } = props;
+const AssetEvolution = () => {
     //Variables
     const apiCaller = new ApiOperations();
 

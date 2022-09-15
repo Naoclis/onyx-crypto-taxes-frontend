@@ -8,6 +8,7 @@ import AssetsWalletView from './OldAppTesting/AssetsWallet';
 import AssetEvolution from './OldAppTesting/AssetEvolution';
 import OrderComparison from './OldAppTesting/OrderComparison';
 import ExtractData from './OldAppTesting/ExtractData';
+import ExportUzan from './OldAppTesting/ExportUzan';
 //Api
 import ApiOperations from '../../shared/apiOperations';
 
@@ -54,16 +55,17 @@ const OldAppTesting = () => {
                     <Box>
                         <Box mb={2} sx={{ '& > .MuiButtonBase-root': { margin: '0 0.5em' } }}>
                             <Button variant="contained" onClick={() => chooseTab('assetEvolution')}>Vision Evolution d'un Asset</Button>
-
                             <Button variant="contained" onClick={() => chooseTab('walletComparison')}>Comparaison des portefeuilles au 01/01</Button>
-
                             <Button variant="contained" onClick={() => chooseTab('walletRowsComparison')}>Comparaison des lignes entre portefeuilles</Button>
                             <Button variant="contained" onClick={() => chooseTab('debugger')}>Extraction de données</Button>
+                            <Button variant="contained" onClick={() => chooseTab('exportUzan')}>Export Uzan</Button>
                         </Box>
-                        {tab === 'assetEvolution' && <AssetEvolution views={yearWalletViews} />}
+                        {tab === 'assetEvolution' && <AssetEvolution />}
                         {tab === 'walletComparison' && <AssetsWalletView views={yearWalletViews} />}
                         {tab === 'walletRowsComparison' && <OrderComparison />}
                         {tab === 'debugger' && <ExtractData />}
+                    {tab === 'exportUzan' && <ExportUzan />}
+
                     </Box>
                 }
             </Grid>
