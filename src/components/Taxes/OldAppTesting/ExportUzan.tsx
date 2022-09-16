@@ -20,41 +20,97 @@ const styles = {
 };
 /*********** [ COMPONENT ] ****************/
 const AggRow = (props: any) => {
-    const { item, testing, compar } = props;
+    const { item, testing, source, _key } = props;
+    const [compar, setCompar] = useState<any>({ sameKey: [], oppositeKey: [], sourceOpposite:[] });
 
-    const compareWithTest = () => {
-        if (compar !== null) {
-            const diff = item.qty - compar.qty;
-            const test = (Math.abs(diff) < 0.0001);
-            return { test: test, diff: diff };
-        }
-        return { test: false, diff: 0 };
-    }
+    const init = () => {
+        const opposite = (_key === 'outputs') ? 'inputs' : 'outputs';
+        const sameKey = testing[_key].filter((el: any) => el.asset === item.asset);
+        const oppositeKey = testing[opposite].filter((el: any) => el.asset === item.asset);
+        const sourceOpposite = source[opposite].filter((el: any) => el.asset === item.asset);
+
+        const compar = {
+            sameKey: sameKey,
+            oppositeKey: oppositeKey,
+            sourceOpposite: sourceOpposite
+        };
+        setCompar(compar);
+    };
+
+    //const findTestingAggRow = () => {
+    //    const hasTestingRow = arr.filter((el: any) => el.asset === item.asset);
+    //    if (hasTestingRow.length === 1) {
+    //        const diff = item.qty - hasTestingRow[0].qty;
+    //        const test = (Math.abs(diff) < 0.0001);
+
+    //        return hasTestingRow[0];
+    //    }
+    //    else {
+    //        return null;
+    //    }
+    //};
+
+    //const compareWithTest = () => {
+    //    if (compar !== null) {
+    //        const diff = item.qty - compar.qty;
+    //        const test = (Math.abs(diff) < 0.0001);
+    //        return { test: test, diff: diff };
+    //    }
+    //    return { test: false, diff: 0 };
+    //}
 
     const checkTest = () => {
-        let res: any = (
-            <TableRow className="even">
-                <TableCell colSpan={8}>-</TableCell>
-            </TableRow>
-        );
-        if (compar !== null) {
-            const { test, diff } = compareWithTest();
-            res = (! test) ?
-                (<TableRow className="odd">
-                    <TableCell>{compar.asset}</TableCell>
-                    <TableCell>Testing : {compar.qty} || Manque : {diff}</TableCell>
-                    <TableCell>{compar.date.length}</TableCell>
-                </TableRow>)
-                :
-                (
-                    <TableRow className="even">
-                        <TableCell colSpan={8}>c'est OK !</TableCell>
-                    </TableRow>
-                );
+        let message = '';
+        let status = 0;
+        let diff = {source:0, sameTest:0}
+        if (compar.oppositeKey.length > 0) {
+            message += 'Dans la clé opposée Test';
+            status += 1;
         }
+        if (compar.sameKey.length > 0) {
+            status += 10;
+            diff.sameTest = compar.sameKey[0].qty - item.qty;
+
+            message += ` | Dans la même clé Test: diff = ${diff.sameTest.toFixed(3)}`;
+        }
+        if (compar.sourceOpposite.length > 0) {
+            status += 100;
+            diff.source = compar.sourceOpposite[0].qty - item.qty;
+
+            message += ` | Dans la clé opposée Source : diff = ${diff.source.toFixed(3)}`;
+        }
+
+
+        //if (compar !== null) {
+        //    const { test, diff } = compareWithTest();
+        //    res = (! test) ?
+        //        (<TableRow className="odd">
+        //            <TableCell>{compar.asset}</TableCell>
+        //            <TableCell>Testing : {compar.qty} || Manque : {diff}</TableCell>
+        //            <TableCell>{compar.date.length}</TableCell>
+        //        </TableRow>)
+        //        :
+        //        (
+        //            <TableRow className="even">
+        //                <TableCell colSpan={8}>c'est OK !</TableCell>
+        //            </TableRow>
+        //        );
+        //}
+            let res: any = (
+                <TableRow className="even">
+                    <TableCell colSpan={8}>{message}</TableCell>
+                </TableRow>
+            );
+
         return res;
     }
 
+    //Effect
+    useEffect(() => {
+        init();
+    }, [])
+
+    //Render
     return (
         <React.Fragment>
             <TableRow>
@@ -98,7 +154,6 @@ const AggBox = (props: any) => {
                     console.log(hasTestingRow[0]);
                     console.log(test);
                 }
-                    
             }
         }
         else {
@@ -117,7 +172,7 @@ const AggBox = (props: any) => {
         const testSrcQty = (testSrc.length > 0) ? testSrc[0].qty : 0;
         const sourceOppQty = (sourceOpp.length > 0) ? sourceOpp[0].qty : 0;
         const newDiff = Math.abs(item.qty - sourceOppQty) - Math.abs(testOppQty - testSrcQty);
-        console.log(`Asset : ${item.asset} => ${item.qty}  | keyOpp: ${opposite} - test : ${testOppQty} | ${sourceOppQty} => ${Math.abs(item.qty - sourceOppQty)}`);
+        //console.log(`Asset : ${item.asset} => ${item.qty}  | keyOpp: ${opposite} - test : ${testOppQty} | ${sourceOppQty} => ${Math.abs(item.qty - sourceOppQty)}`);
         
         const test = (Math.abs(newDiff) < 0.0001);
         return test;
@@ -138,7 +193,7 @@ const AggBox = (props: any) => {
                 <TableBody>
                     {source !== undefined && source[_key].map((item: any, index: number) => (
                         <React.Fragment key={index}>
-                            {!hasTestingAggRow(testing[_key], item) && <AggRow item={item} compar={findTestingAggRow(testing[_key], item)} testing={testing}/>}
+                            {!hasTestingAggRow(testing[_key], item) && <AggRow item={item} _key={_key} testing={testing} source={source}/>}
                         </React.Fragment>
                     )
 
