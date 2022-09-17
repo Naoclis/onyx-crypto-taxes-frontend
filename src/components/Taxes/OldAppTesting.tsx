@@ -64,7 +64,7 @@ const OldAppTesting = () => {
                         {tab === 'walletComparison' && <AssetsWalletView views={yearWalletViews} />}
                         {tab === 'walletRowsComparison' && <OrderComparison />}
                         {tab === 'debugger' && <ExtractData />}
-                    {tab === 'exportUzan' && <ExportUzan />}
+                        {tab === 'exportUzan' && <ExportUzan />}
 
                     </Box>
                 }

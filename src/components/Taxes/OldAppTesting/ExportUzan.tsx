@@ -1,6 +1,6 @@
 /********** [  LIBRARIES  ] ***************/
 import React, { useEffect, useState } from 'react';
-import { Box, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, TextField } from '@mui/material';
 /********* [ MY LIBRARIES ] ***************/
 //Components
 import Loader from '../../../components/UIElements/Loader';
@@ -11,13 +11,6 @@ import ApiOperations from '../../../shared/apiOperations';
 //Style
 import { defaultStyles, palette } from '../../../assets/styles/theme';
 
-const styles = {
-    odd: {
-        'td': {
-            backgroundColor: palette.secondary.dark
-        },
-    }
-};
 /*********** [ COMPONENT ] ****************/
 const AggRow = (props: any) => {
     const { item, testing, source, _key } = props;
@@ -130,7 +123,6 @@ const AggBox = (props: any) => {
     const { source, _key, testing } = props;
 
     const hasTestingAggRow = (arr: any, item: any) => {
-        console.log(item);
         let test = false;
         const hasTestingRow = arr.filter((el: any) => el.asset.toLowerCase() === item.asset.toLowerCase());
         if (hasTestingRow.length === 1) {
@@ -199,6 +191,7 @@ const ExportUzan = () => {
     const [aggExported, setAggExported] = useState({ fees: [], outputs: [], inputs: [] });
     const [aggTesting, setAggTesting] = useState({ fees: [], outputs: [], inputs: [] });
     const [inProgress, setInProgress] = useState<number>(-1);
+    const [year, setYear] = useState<string>('2021');
     //Functions
     const init = async () => {
         setInProgress(1);
@@ -211,6 +204,20 @@ const ExportUzan = () => {
         setInProgress(-1);
     };
 
+    const createExports = async () => {
+        setInProgress(1);
+        const res = await apiCaller.get(`generate/assetsEvolution/forLawyer/${year}`, 'taxesCalculator');
+        if (res !== undefined) {
+            await init();
+        }
+        setInProgress(-1);
+    };
+
+    //Pour fixer l'année de calcul
+    const updateYear = (event: any) => {
+        const value = event.target.value;
+        setYear(value);
+    }
 
     //Effects
     useEffect(() => {
@@ -223,9 +230,15 @@ const ExportUzan = () => {
             <h2>Comparaison des exports pour Uzan</h2>
             <h4>En théorie, il faut retrouver les mêmes quantités jusqu'en 2021, au détail du mining près</h4>
             Pour aider à la vérification, il faut sélectionner un asset et une année.<br />
-            <br />
-            <br />
-            <br />
+            <Box mt={4} mb={2} display="flex" alignItems="center">
+                <Box mr={2}>Précisez l'année sur laquelle lancer les calculs :</Box>
+                <TextField label="Année de calcul" variant="outlined" value={year} onChange={updateYear} />
+                <Box ml={2}>
+                    <Button variant="contained" onClick={createExports}>Générer Exports</Button>
+                </Box>
+            </Box>
+            
+            
             {inProgress === 1 &&
                 <Box mb={2}>
                     <Loader message="Action en cours" />
